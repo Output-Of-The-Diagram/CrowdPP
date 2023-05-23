@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_allCrowd"
+        android:title="All Crowd"
+        android:enabled="true"
+        android:icon="@drawable/all_crowd"/>
+    <item
+        android:id="@+id/item_myCrowd"
+        android:title="My Crowd"
+        android:enabled="true"
+        android:icon="@drawable/my_crowd"/>
+</menu>
