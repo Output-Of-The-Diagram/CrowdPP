@@ -11,5 +11,6 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/resource"
         android:background="#fff"
-        app:itemIconSize="40dp"/>
+        app:itemIconSize="40dp"
+        app:itemRippleColor="#8989FF"/>
 </RelativeLayout>
