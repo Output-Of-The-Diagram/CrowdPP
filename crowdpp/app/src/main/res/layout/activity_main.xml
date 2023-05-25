@@ -13,4 +13,10 @@
         android:background="#fff"
         app:itemIconSize="40dp"
         app:itemRippleColor="#8989FF"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Text1"
+        android:textSize="50sp"/>
 </RelativeLayout>
