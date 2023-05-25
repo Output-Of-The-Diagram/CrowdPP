@@ -5,15 +5,15 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const port = 3000;
 
-var db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "1234",
-  database: "userCrowd",
-  port: "3306",
-});
+// var db = mysql.createConnection({
+//   host: "127.0.0.1",
+//   user: "root",
+//   password: "1234",
+//   database: "userCrowd",
+//   port: "3306",
+// });
 
-db.connect();
+// db.connect();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -278,7 +278,10 @@ app.post("/escapecrowd", (req, res) => {
 
 app.get("/", (req, res) => {
   console.log("enter!!!");
-  res.send("Hello World2!");
+  res.json({
+    name: "jihun",
+    name2: "jihun2",
+  });
 });
 
 app.listen(port, () => {
