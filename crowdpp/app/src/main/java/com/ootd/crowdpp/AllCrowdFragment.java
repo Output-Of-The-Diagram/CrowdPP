@@ -1,6 +1,8 @@
 package com.ootd.crowdpp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -12,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -89,6 +94,32 @@ public class AllCrowdFragment extends Fragment {
         createCrowd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Dialog createCrowdDialog = new Dialog(getContext());
+                createCrowdDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                createCrowdDialog.setContentView(R.layout.activity_create_crowd_popup);
+                createCrowdDialog.show();
+
+                EditText createCrowdName = createCrowdDialog.findViewById(R.id.createCrowdName);
+                Button createCrowdButton = createCrowdDialog.findViewById(R.id.createCrowdButton);
+
+                createCrowdButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String crowdName = createCrowdName.getText().toString();
+
+//                이름 중복 검사 구현해줘잉(이름은 crowdName임)
+
+                        boolean isDuplicatedCrowdName = false;
+                        if (isDuplicatedCrowdName){
+                            Toast.makeText(v.getContext(), "중복된 Crowd입니다", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(v.getContext(), "Crowd 생성이 완료되었습니다", Toast.LENGTH_SHORT).show();
+//                            디비에 Crowd 추가해줘잉
+                            createCrowdDialog.dismiss();
+                        }
+                    }
+                });
 
             }
         });

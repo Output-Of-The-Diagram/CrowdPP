@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     Fragment allCrowdFragment;
     Fragment myCrowdFragment;
+    Fragment settingFragment;
 //    BottomNavigationView bottomNavigationView;
     NavigationBarView navigationBarView;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         allCrowdFragment = new AllCrowdFragment();
         myCrowdFragment = new MyCrowdFragment();
+        settingFragment = new SettingFragment();
 
 
         navigationBarView = findViewById(R.id.mainBottomNavigation);
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (item.getItemId() == R.id.item_myCrowd){
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, myCrowdFragment).commitAllowingStateLoss();
+                }
+                else if (item.getItemId() == R.id.item_setting){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, settingFragment).commitAllowingStateLoss();
                 }
                 return true;
             }
