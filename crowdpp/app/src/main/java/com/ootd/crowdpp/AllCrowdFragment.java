@@ -6,13 +6,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.ootd.crowdpp.Retrofits.CrowdModel;
+import com.ootd.crowdpp.Retrofits.Result;
+import com.ootd.crowdpp.Retrofits.RetrofitClient;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +30,6 @@ import java.util.Arrays;
  * create an instance of this fragment.
  */
 public class AllCrowdFragment extends Fragment {
-
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     private RecyclerAdapter adapter;
@@ -83,24 +92,54 @@ public class AllCrowdFragment extends Fragment {
     }
 
     private void getData(){
-        CrowdData crowd1 = new CrowdData();
-        crowd1.setImage(1);
-        crowd1.setName("국민대 조기축구단");
-        crowd1.setIntroduction("우리는 대한민국을 지배하러온 국민대 조기축구단이다");
-        crowd1.setLeaderID("leader1");
 
-        CrowdData crowd2 = new CrowdData();
-        crowd2.setImage(1);
-        crowd2.setName("1일1백준 정예용사");
-        crowd2.setIntroduction("1일 1백준을 실천하지 않을 시 손모가지를 자른다");
-        crowd2.setLeaderID("leader2");
+        Call<ArrayList<CrowdModel>> call;
+        call = RetrofitClient.getApiService().getAllCrowd();
+        call.enqueue(new Callback<ArrayList<CrowdModel>>(){
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.code() == 200) {
+                    ArrayList<CrowdModel> result = (ArrayList<CrowdModel>) response.body();
+                    System.out.println(result.size());
+                    for (int i=0; i<result.size(); i++) {
+                        CrowdData crowd = new CrowdData();
+                        crowd.setImage(result.get(i).getId());
+                        crowd.setName(result.get(i).getName());
+                        crowd.setIntroduction(result.get(i).getExplain());
+                        crowd.setLeaderID(result.get(i).getExplain());
+                        adapter.addItem(crowd);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
 
-        ArrayList<CrowdData> crowdData = new ArrayList<>();
-        crowdData.add(crowd1);
-        crowdData.add(crowd2);
+                }
+            }
 
-        adapter.addItem(crowd1);
-        adapter.addItem(crowd2);
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("request fail", t.getMessage());
+            }
+        });
+
+
+//        CrowdData crowd1 = new CrowdData();
+//        crowd1.setImage(1);
+//        crowd1.setName("국민대 조기축구단");
+//        crowd1.setIntroduction("우리는 대한민국을 지배하러온 국민대 조기축구단이다");
+//        crowd1.setLeaderID("leader1");
+//
+//        CrowdData crowd2 = new CrowdData();
+//        crowd2.setImage(1);
+//        crowd2.setName("1일1백준 정예용사");
+//        crowd2.setIntroduction("1일 1백준을 실천하지 않을 시 손모가지를 자른다");
+//        crowd2.setLeaderID("leader2");
+//
+////        ArrayList<CrowdData> crowdData = new ArrayList<>();
+////        crowdData.add(crowd1);
+////        crowdData.add(crowd2);
+//
+//        adapter.addItem(crowd1);
+//        adapter.addItem(crowd2);
 
         adapter.notifyDataSetChanged();
     }
