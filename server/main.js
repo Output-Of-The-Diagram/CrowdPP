@@ -158,11 +158,11 @@ app.post("/makecrowd", (req, res) => {
       if (error) {
         console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.json({msg : "already Exist!"});
+          res.json({ msg: "already Exist!" });
         } else {
-          res.json({msg : error.code});
+          res.json({ msg: error.code });
         }
-      }else {
+      } else {
         console.log("POST ACCOUNT");
         console.log(`${req.body.id}', '${req.body.name}', '${formattedDate}`);
         db.query(
@@ -170,19 +170,20 @@ app.post("/makecrowd", (req, res) => {
           function (error, result) {
             if (error) {
               console.log(error);
-              res.json({msg : error.code});
+              res.json({ msg: error.code });
             }
             console.log("POST ACCOUNT");
-            console.log(`${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`);
+            console.log(
+              `${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`
+            );
 
-            res.json({msg : "registered!"});
+            res.json({ msg: "registered!" });
           }
         );
       }
     }
   );
 });
-
 
 // 모임 가입 신청 요청
 app.post("/applycrowd", (req, res) => {
@@ -194,20 +195,17 @@ app.post("/applycrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Request VALUE ('${req.body.userId}, ${req.body.crowdId}', NOW());`,
+    `INSERT INTO Request (userID, crowdID, applyDate) VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
     function (error, result) {
       if (error) {
         if (error.code === "ER_DUP_ENTRY") {
-          res.json({msg : "already requested"});
+          res.json({ msg: "duplicated" });
         } else {
-          res.json({msg : error.code});
+          res.json({ msg: error.code });
         }
-      }else {
-        console.log("POST ACCOUNT");
-        console.log(`'${req.body.userId}', '${req.body.crowdId}', '${formattedDate}'`);
-        res.json({msg : "registered!"});
+      } else {
+        res.json({ msg: "success" });
       }
-      
     }
   );
 });
@@ -225,14 +223,14 @@ app.post("/processapply", (req, res) => {
       function (error, result) {
         if (error) {
           if (error.code === "ER_DUP_ENTRY") {
-            res.json({msg : "already member!"});
+            res.json({ msg: "already member!" });
           } else {
-            res.json({msg : error.code});
+            res.json({ msg: error.code });
           }
-        }else {
+        } else {
           console.log("POST ACCOUNT");
           console.log(`'${req.body.userId}', '${req.body.crowdId}'`);
-          res.json({msg : "accepted!"});
+          res.json({ msg: "accepted!" });
         }
       }
     );
@@ -247,7 +245,6 @@ app.post("/processapply", (req, res) => {
       console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
     }
   );
-  
 });
 
 // 모임 삭제하기
@@ -263,11 +260,11 @@ app.post("/deletecrowd", (req, res) => {
     function (error, result) {
       if (error) {
         console.log(error);
-        res.json({msg : error.code});
-      }else {
+        res.json({ msg: error.code });
+      } else {
         console.log("POST ACCOUNT");
         console.log(`${req.body.crowdid}`);
-        res.json({msg : "deleted!"});
+        res.json({ msg: "deleted!" });
       }
     }
   );
@@ -287,13 +284,12 @@ app.post("/kickmember", (req, res) => {
       if (error) {
         console.log(error);
         res.send(error.code);
-      }else {
+      } else {
         console.log("POST ACCOUNT");
         console.log(`'${req.body.userId}', '${req.body.crowdId}'`);
 
-        res.json({msg : "registered!"});
+        res.json({ msg: "registered!" });
       }
-      
     }
   );
 });
