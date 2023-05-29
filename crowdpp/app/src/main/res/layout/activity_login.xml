@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/idInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+        android:textSize="20dp" />
+    <EditText
+        android:id="@+id/pwInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="PW"
+        android:textSize="20dp"
+        android:inputType="textPassword"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            android:textSize="16dp"
+            android:id="@+id/loginButton"/>
+
+        <Button
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="회원가입"
+            android:textSize="16dp"
+            android:id="@+id/signupButton"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:text="메인 화면"
+        android:textSize="16dp"
+        android:id="@+id/goMainButton"/>
+
+
+</LinearLayout>
