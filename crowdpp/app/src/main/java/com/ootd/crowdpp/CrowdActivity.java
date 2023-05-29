@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,7 +57,8 @@ public class CrowdActivity extends AppCompatActivity {
                 isLeader = false; // 리더인지 확인
                 SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
                 String userId = sharedPreferences.getString("id", "");
-                call = RetrofitClient.getApiService().isLeader(userId, crowdId);
+                Call<Result> call;
+                call = RetrofitClient.getApiService().isleader(userId, crowdId);
                 call.enqueue(new Callback<Result>(){
                     @Override
                     public void onResponse(Call<Result> call, Response<Result> response) {
@@ -84,6 +86,7 @@ public class CrowdActivity extends AppCompatActivity {
                     builder.setMessage("정말 탈퇴하시겠습니까?");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int whichButton){
+                            Call<Result> call;
                             call = RetrofitClient.getApiService().kickmember(userId, crowdId);
                             call.enqueue(new Callback<Result>(){
                                 @Override
@@ -119,6 +122,7 @@ public class CrowdActivity extends AppCompatActivity {
                     builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int whichButton){
+                            Call<Result> call;
                             call = RetrofitClient.getApiService().deletecrowd(crowdId);
                             call.enqueue(new Callback<Result>(){
                                 @Override

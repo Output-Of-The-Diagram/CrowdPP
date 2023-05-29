@@ -70,7 +70,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("/isleader/")
-    Call<Result> makecrowd(
+    Call<Result> isleader(
         @Field("userId") String userId,
         @Field("crowdId") int crowdId
     );
@@ -83,7 +83,7 @@ public interface RetrofitInterface {
         @Path("userId") String userId
     );
 
-    @GET("/mycrowd/{crowdId}")
+    @GET("/allmember/{crowdId}")
     Call<ArrayList<UserModel>> getAllMember(
         @Path("crowdId") int crowdId
     );
