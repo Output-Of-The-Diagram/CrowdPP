@@ -153,31 +153,24 @@ app.post("/makecrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Crowd VALUE ('${req.body.id}, ${req.body.name}', NOW(), '${req.body.explane}, ${req.body.representImage}');`,
+    `INSERT INTO Crowd (name, genDate, description, representImage) VALUE ('${req.body.crowdName}', NOW(), '${req.body.crowdExplain}', '${req.body.crowdImage}');`,
     function (error, result) {
       if (error) {
         console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.json({ msg: "already Exist!" });
+          res.json({ msg: "duplicated" });
         } else {
           res.json({ msg: error.code });
         }
       } else {
-        console.log("POST ACCOUNT");
-        console.log(`${req.body.id}', '${req.body.name}', '${formattedDate}`);
         db.query(
-          `INSERT INTO Belong VALUE ('${req.body.userId}, ${req.body.crowdId}', True);`,
+          `INSERT INTO Belong VALUE ('${req.body.userId}', '${result.insertId}', True);`,
           function (error, result) {
             if (error) {
               console.log(error);
               res.json({ msg: error.code });
             }
-            console.log("POST ACCOUNT");
-            console.log(
-              `${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`
-            );
-
-            res.json({ msg: "registered!" });
+            res.json({ msg: "success" });
           }
         );
       }

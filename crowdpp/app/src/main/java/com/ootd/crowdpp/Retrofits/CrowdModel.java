@@ -16,9 +16,9 @@ public class CrowdModel {
     @Expose
     private String getDate;
 
-    @SerializedName("explain")
+    @SerializedName("description")
     @Expose
-    private String explain;
+    private String description;
 
     @SerializedName("representImage")
     @Expose
@@ -48,12 +48,12 @@ public class CrowdModel {
         this.getDate = getDate;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getRepresentImage() {

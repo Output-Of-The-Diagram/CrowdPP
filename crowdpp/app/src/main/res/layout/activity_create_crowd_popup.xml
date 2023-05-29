@@ -19,6 +19,18 @@
         android:layout_height="match_parent"
         android:gravity="center"/>
 
+    <EditText
+        android:id="@+id/createCrowdExplain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/createRepresentImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+
     <Button
         android:id="@+id/createCrowdButton"
         android:layout_width="wrap_content"
