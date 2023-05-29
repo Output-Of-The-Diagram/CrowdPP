@@ -45,7 +45,7 @@
             android:text="우리는 대한민국을 지배하러온 메시축구단이다." />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/applyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_introduction"
