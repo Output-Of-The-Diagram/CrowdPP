@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -335,6 +336,11 @@ public class SignupActivity extends AppCompatActivity {
                                 String msg = result.getMsg();
                                 if (msg.equals("success")) {
                                     Toast.makeText(SignupActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("id", inputId);
+                                    editor.putString("pw", inputPw);
+                                    editor.apply();
                                     finish();
                                 } else if (msg.equals("duplicated")) {
                                     Toast.makeText(SignupActivity.this, "ID가 중복되었습니다", Toast.LENGTH_SHORT).show();

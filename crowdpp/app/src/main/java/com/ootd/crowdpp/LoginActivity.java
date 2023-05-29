@@ -1,6 +1,7 @@
 package com.ootd.crowdpp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,12 @@ public class LoginActivity extends AppCompatActivity {
         Button signupButton = findViewById(R.id.signupButton);
         EditText idInput = findViewById(R.id.idInput);
         EditText pwInput = findViewById(R.id.pwInput);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        String id = sharedPreferences.getString("id", "");
+        String pw = sharedPreferences.getString("pw", "");
+        idInput.setText(id);
+        pwInput.setText(pw);
 
         goMainButton.setOnClickListener(new View.OnClickListener() {
             @Override
