@@ -5,13 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.MenuItem;
-
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-=======
 import android.util.Log;
 import android.widget.TextView;
 
@@ -23,7 +18,6 @@ import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
->>>>>>> f1732ae74e4d5704dd3f40a4adb43cdb3fb92e72
 
 public class MainActivity extends AppCompatActivity {
     Call<DataModel> call;
@@ -37,12 +31,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
 
         allCrowdFragment = new AllCrowdFragment();
         myCrowdFragment = new MyCrowdFragment();
 
-//        bottomNavigationView = findViewById(R.id.mainBottomNavigation);
+
         navigationBarView = findViewById(R.id.mainBottomNavigation);
 
         //초기 화면 설정
@@ -62,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-=======
         TextView textView = findViewById(R.id.Text1);
 
         call = RetrofitClient.getApiService().test_my_server();
@@ -87,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("TEST2", t.getMessage());
             }
         });
->>>>>>> f1732ae74e4d5704dd3f40a4adb43cdb3fb92e72
+
     }
 
 
