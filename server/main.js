@@ -39,14 +39,20 @@ app.get("/allcrowd", (req, res) => {
 
 // 유저 개인이 속한 corwd만 리턴
 app.get("/mycrowd/:userId", (req, res) => {
+  console.log(req.params.userId);
   const userId = req.params.userId;
-  db.query(`SELECT * FROM Crowd`, function (error, result) {
-    if (error) {
-      console.log("DB QUERY ERROR");
-      console.log(error);
+  db.query(
+    // `SELECT * FROM Belong JOIN User WHERE userID = '${req.params.userId}'`,
+    `SELECT c.* FROM CrowdPP.Belong AS b JOIN CrowdPP.Crowd AS c ON b.crowdID = c.id WHERE b.userID = '${req.params.userId}'`,
+    function (error, result) {
+      console.log(result);
+      if (error) {
+        console.log("DB QUERY ERROR");
+        console.log(error);
+      }
+      res.json(result);
     }
-    res.send(result);
-  });
+  );
 });
 
 // 특정 crowd에 속한 모든 유저의 정보를 리턴

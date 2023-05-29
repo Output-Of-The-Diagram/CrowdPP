@@ -58,7 +58,12 @@ public interface RetrofitInterface {
     @GET("/allcrowd/")
     Call<ArrayList<CrowdModel>> getAllCrowd();
 
-    @GET("/allmember/{crowdId}")
+    @GET("/mycrowd/{userId}")
+    Call<ArrayList<CrowdModel>> getMyCrowd(
+        @Path("userId") String userId
+    );
+
+    @GET("/mycrowd/{crowdId}")
     Call<ArrayList<UserModel>> getAllMember(
         @Path("crowdId") int crowdId
     );
