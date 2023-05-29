@@ -23,12 +23,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // GET METHOD
 // 모든 crowd 정보 리턴
 app.get("/allcrowd", (req, res) => {
+  console.log("hi");
+  console.log("hi");
+  console.log("hi");
+  console.log("hi");
   db.query(`SELECT * FROM Crowd`, function (error, result) {
     if (error) {
       console.log("DB QUERY ERROR");
       console.log(error);
     }
-    res.send(result);
+    console.log(result);
+    res.json(result);
   });
 });
 

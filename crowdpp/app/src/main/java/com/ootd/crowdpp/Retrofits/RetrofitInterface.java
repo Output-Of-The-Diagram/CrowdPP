@@ -2,6 +2,8 @@ package com.ootd.crowdpp.Retrofits;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -36,4 +38,6 @@ public interface RetrofitInterface {
     Call<Result> checkId(
             @Field("id") String id
     );
+    @GET("/allcrowd/")
+    Call<ArrayList<CrowdModel>> getAllCrowd();
 }
