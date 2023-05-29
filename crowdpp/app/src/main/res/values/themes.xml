@@ -3,6 +3,7 @@
     <style name="Base.Theme.Crowdpp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name = "android:colorPrimary">@color/prettyBlue</item>
     </style>
 
     <style name="Theme.Crowdpp" parent="Base.Theme.Crowdpp" />
