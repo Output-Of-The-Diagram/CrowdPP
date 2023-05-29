@@ -57,6 +57,28 @@ app.get("/allmember/:crowdId", (req, res) => {
 });
 
 // POST METHOD
+// ID 중복확인 요청
+app.post("/checkId", (req, res) => {
+  console.log("enter checkId");
+
+  db.query(
+    `SELECT id FROM User WHERE id='${req.body.id}'`,
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      } else {
+        if (result == 0) {
+          res.json({ msg: "able" });
+        } else {
+          res.json({ msg: "unable" });
+        }
+      }
+    }
+  );
+  console.log(req.body);
+});
+
+// POST METHOD
 // 회원가입 요청
 app.post("/signup", (req, res) => {
   console.log("enter signup");

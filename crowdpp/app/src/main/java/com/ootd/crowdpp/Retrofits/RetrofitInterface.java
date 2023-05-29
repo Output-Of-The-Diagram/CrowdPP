@@ -30,4 +30,10 @@ public interface RetrofitInterface {
             @Field("name") String name,
             @Field("email") String email
     );
+
+    @FormUrlEncoded
+    @POST("/checkId/")
+    Call<Result> checkId(
+            @Field("id") String id
+    );
 }

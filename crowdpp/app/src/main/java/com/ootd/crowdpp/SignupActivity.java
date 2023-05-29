@@ -28,6 +28,7 @@ import android.widget.TextView;
 import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
+    boolean isDuplicatedId = false;
     Call<Result> call;
     EditText signupId, signupPw, signupCheckPw, signupName, signupEmail;
     TextView textviewFineId, textviewFinePw, textviewCheckPw;
@@ -98,24 +99,48 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 String strJmId = signupId.getText().toString();
-                boolean isDuplicatedId = false;
                 pressIdBtn = true;
                 idFine = false;
                 //
                 //중복 확인 필요
                 //
-                if (isDuplicatedId) {
-                    textviewFineId.setText("중복된 아이디입니다");
-                    textviewFineId.setTextColor(0xFFFF0000);
-                }
-                else if (!isFineId(strJmId)){
+                if (!isFineId(strJmId)){
                     textviewFineId.setText("6자 이상의 영문, 숫자를 입력해주세요");
                     textviewFineId.setTextColor(0xFFFF0000);
-                }
-                else{
-                    textviewFineId.setText("사용 가능한 아이디입니다");
-                    textviewFineId.setTextColor(0xFF0000FF);
-                    idFine = true;
+                } else {
+                    call = RetrofitClient.getApiService().checkId(strJmId);
+                    call.enqueue(new Callback<Result>(){
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.code() == 200) {
+                                Result result = response.body();
+                                String msg = result.getMsg();
+                                if (msg.equals("able")) {
+                                    isDuplicatedId = false;
+                                } else if (msg.equals("unable")) {
+                                    isDuplicatedId = true;
+                                } else {
+                                    Toast.makeText(SignupActivity.this, msg ,Toast.LENGTH_SHORT).show();
+                                }
+                                if (isDuplicatedId) {
+                                    textviewFineId.setText("중복된 아이디입니다");
+                                    textviewFineId.setTextColor(0xFFFF0000);
+                                }
+                                else{
+                                    textviewFineId.setText("사용 가능한 아이디입니다");
+                                    textviewFineId.setTextColor(0xFF0000FF);
+                                    idFine = true;
+                                }
+                                System.out.println(msg);
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            Log.e("request fail", t.getMessage());
+                        }
+                    });
                 }
             }
         });
