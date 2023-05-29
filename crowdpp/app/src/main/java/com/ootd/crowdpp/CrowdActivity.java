@@ -55,8 +55,8 @@ public class CrowdActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isLeader = false; // 리더인지 확인
                 SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-                String id = sharedPreferences.getString("id", "");
-                call = RetrofitClient.getApiService().isLeader(id, );
+                String userId = sharedPreferences.getString("id", "");
+                call = RetrofitClient.getApiService().isLeader(userId, crowdId);
                 call.enqueue(new Callback<Result>(){
                     @Override
                     public void onResponse(Call<Result> call, Response<Result> response) {
@@ -84,9 +84,24 @@ public class CrowdActivity extends AppCompatActivity {
                     builder.setMessage("정말 탈퇴하시겠습니까?");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int whichButton){
-//
-//                        탈퇴 구현해주세요
-//
+                            call = RetrofitClient.getApiService().kickmember(userId, crowdId);
+                            call.enqueue(new Callback<Result>(){
+                                @Override
+                                public void onResponse(Call<Result> call, Response<Result> response) {
+                                    if (response.code() == 200) {
+                                        Result result = response.body();
+                                        String msg = result.getMsg();
+                                        if (msg.equals("registered!")) {
+                                        }
+                                        System.out.println(msg);
+                                    } else {
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<Result> call, Throwable t) {
+                                    Log.e("request fail", t.getMessage());
+                                }
+                            });
                             dialog.cancel();
                         }
                     });
@@ -104,8 +119,24 @@ public class CrowdActivity extends AppCompatActivity {
                     builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int whichButton){
-//
-//                        Crowd 삭제 구현해주세요
+                            call = RetrofitClient.getApiService().deletecrowd(crowdId);
+                            call.enqueue(new Callback<Result>(){
+                                @Override
+                                public void onResponse(Call<Result> call, Response<Result> response) {
+                                    if (response.code() == 200) {
+                                        Result result = response.body();
+                                        String msg = result.getMsg();
+                                        if (msg.equals("deleted!")) {
+                                        }
+                                        System.out.println(msg);
+                                    } else {
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<Result> call, Throwable t) {
+                                    Log.e("request fail", t.getMessage());
+                                }
+                            });
 //
                             dialog.cancel();
                         }
