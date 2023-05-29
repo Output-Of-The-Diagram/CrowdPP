@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.ootd.crowdpp.Retrofits.CrowdModel;
 import com.ootd.crowdpp.Retrofits.Result;
 import com.ootd.crowdpp.Retrofits.RetrofitClient;
+import com.ootd.crowdpp.Retrofits.UserModel;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -100,12 +102,44 @@ public class AllCrowdFragment extends Fragment {
                 createCrowdDialog.show();
 
                 EditText createCrowdName = createCrowdDialog.findViewById(R.id.createCrowdName);
+                EditText createCrowdExplain = createCrowdDialog.findViewById(R.id.createCrowdExplain);
+                EditText createCrowdRepresentImage = createCrowdDialog.findViewById(R.id.createRepresentImage);
                 Button createCrowdButton = createCrowdDialog.findViewById(R.id.createCrowdButton);
+
 
                 createCrowdButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                        String userId = sharedPreferences.getString("id", "");
+                        System.out.println(userId);
+                        System.out.println("@@@@@@@@@@@@@@@");
                         String crowdName = createCrowdName.getText().toString();
+                        String crowdExplain = createCrowdExplain.getText().toString();
+                        String crowdImage = createCrowdRepresentImage.getText().toString();
+                        Call<Result> call;
+                        call = RetrofitClient.getApiService().makecrowd(crowdName, crowdExplain, crowdImage, userId);
+                        call.enqueue(new Callback<Result>(){
+                            @Override
+                            public void onResponse(Call<Result> call, Response<Result> response) {
+                                if (response.code() == 200) {
+                                    Result result = response.body();
+                                    String msg = result.getMsg();
+                                    if (msg.equals("success")) {
+
+                                    } else if (msg.equals("duplicated")) {
+
+                                    } else {
+
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call call, Throwable t) {
+                                Log.e("request fail", t.getMessage());
+                            }
+                        });
 
 //                이름 중복 검사 구현해줘잉(이름은 crowdName임)
 
@@ -114,7 +148,6 @@ public class AllCrowdFragment extends Fragment {
                             Toast.makeText(v.getContext(), "중복된 Crowd입니다", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(v.getContext(), "Crowd 생성이 완료되었습니다", Toast.LENGTH_SHORT).show();
 //                            디비에 Crowd 추가해줘잉
                             createCrowdDialog.dismiss();
                         }
@@ -153,7 +186,7 @@ public class AllCrowdFragment extends Fragment {
                         CrowdData crowd = new CrowdData();
                         crowd.setImage(result.get(i).getId());
                         crowd.setName(result.get(i).getName());
-                        crowd.setIntroduction(result.get(i).getExplain());
+                        crowd.setIntroduction(result.get(i).getDescription());
                         crowd.setCrowdID(result.get(i).getId());
                         adapter.addItem(crowd);
                     }
