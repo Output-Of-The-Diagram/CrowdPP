@@ -28,4 +28,13 @@
       android:layout_marginLeft="300dp"
       android:src="@drawable/escape" />
 
+  <ImageView
+      android:id="@+id/manageMembersButton"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_marginTop="430dp"
+      android:layout_marginLeft="200dp"
+      android:src="@drawable/manage_member"
+      android:visibility="invisible"/>
+
 </FrameLayout>
