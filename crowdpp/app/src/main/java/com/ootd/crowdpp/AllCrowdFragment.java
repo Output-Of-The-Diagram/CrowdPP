@@ -3,10 +3,16 @@ package com.ootd.crowdpp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AllCrowdFragment extends Fragment {
+
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    private RecyclerAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +68,40 @@ public class AllCrowdFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_crowd, container, false);
+        View v = inflater.inflate(R.layout.fragment_all_crowd, container, false);
+
+        recyclerView = v.findViewById(R.id.recyclerView);
+        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerAdapter();
+        recyclerView.setAdapter(adapter);
+
+        getData();
+
+        return v;
+    }
+
+    private void getData(){
+        CrowdData crowd1 = new CrowdData();
+        crowd1.setImage(1);
+        crowd1.setName("국민대 조기축구단");
+        crowd1.setIntroduction("우리는 대한민국을 지배하러온 국민대 조기축구단이다");
+        crowd1.setLeaderID("leader1");
+
+        CrowdData crowd2 = new CrowdData();
+        crowd2.setImage(1);
+        crowd2.setName("1일1백준 정예용사");
+        crowd2.setIntroduction("1일 1백준을 실천하지 않을 시 손모가지를 자른다");
+        crowd2.setLeaderID("leader2");
+
+        ArrayList<CrowdData> crowdData = new ArrayList<>();
+        crowdData.add(crowd1);
+        crowdData.add(crowd2);
+
+        adapter.addItem(crowd1);
+        adapter.addItem(crowd2);
+
+        adapter.notifyDataSetChanged();
     }
 }

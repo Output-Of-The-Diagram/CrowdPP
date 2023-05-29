@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    card_view:cardBackgroundColor="#f7f2f3"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="3dp"
+    card_view:contentPadding="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="354dp"
+        android:padding="16dp">
+
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="360dp"
+            android:layout_height="160dp"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="74dp"
+            android:layout_marginRight="0dp"
+            android:src="@drawable/messi" />
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="국민대조기축구"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/item_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_image"
+            android:layout_marginTop="10dp"
+            android:text="우리는 대한민국을 지배하러온 메시축구단이다." />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_introduction"
+            android:layout_marginTop="10dp"
+            android:text="신청하기" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
