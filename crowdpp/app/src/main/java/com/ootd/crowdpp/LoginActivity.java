@@ -73,23 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String inputId = idInput.getText().toString();
                 String inputPw = pwInput.getText().toString();
-
-                call = RetrofitClient.getApiService().signup(inputId, inputPw);
-                call.enqueue(new Callback<Result>(){
-                    @Override
-                    public void onResponse(Call<Result> call, Response<Result> response) {
-                        if (response.code() == 200) {
-                            Result result = response.body();
-                            System.out.println(result.getMsg());
-                        } else {
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Result> call, Throwable t) {
-                        Log.e("TEST2", t.getMessage());
-                    }
-                });
             }
         });
     }
