@@ -1,6 +1,7 @@
 package com.ootd.crowdpp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Member;
@@ -55,7 +58,24 @@ public class MembersAdapter extends BaseAdapter {
         kickMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                추방하는거 짜주세요
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("정말 추방하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int whichButton){
+//
+//                        추방 구현해주세요
+//
+                        dialog.cancel();
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
