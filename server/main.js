@@ -149,23 +149,36 @@ app.post("/makecrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `INSERT INTO Crowd VALUE ('${req.body.id}, ${req.body.name}', NOW(), '${req.body.explane}, ${req.body.representImage}');`,
     function (error, result) {
       if (error) {
         console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
+          res.json({msg : "already Exist!"});
         } else {
-          res.send(error.code);
+          res.json({msg : error.code});
         }
-      }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
+      }else {
+        console.log("POST ACCOUNT");
+        console.log(`${req.body.id}', '${req.body.name}', '${formattedDate}`);
+        db.query(
+          `INSERT INTO Belong VALUE ('${req.body.userId}, ${req.body.crowdId}', True);`,
+          function (error, result) {
+            if (error) {
+              console.log(error);
+              res.json({msg : error.code});
+            }
+            console.log("POST ACCOUNT");
+            console.log(`${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`);
 
-      res.send("registered!");
+            res.json({msg : "registered!"});
+          }
+        );
+      }
     }
   );
 });
+
 
 // 모임 가입 신청 요청
 app.post("/applycrowd", (req, res) => {
@@ -176,20 +189,21 @@ app.post("/applycrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `INSERT INTO Request VALUE ('${req.body.userId}, ${req.body.crowdId}', NOW());`,
     function (error, result) {
       if (error) {
         console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
+          res.json({msg : "already requested"});
         } else {
-          res.send(error.code);
+          res.json({msg : error.code});
         }
+      }else {
+        console.log("POST ACCOUNT");
+        console.log(`${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`);
+        res.json({msg : "registered!"});
       }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
-
-      res.send("registered!");
+      
     }
   );
 });
@@ -230,20 +244,20 @@ app.post("/deletecrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `DELETE FROM Crowd WHERE id = ${req.body.crowdId};`,
     function (error, result) {
       if (error) {
         console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
+          res.json({msg : "already Exist!"});
         } else {
-          res.send(error.code);
+          res.json({msg : error.code});
         }
+      }else {
+        console.log("POST ACCOUNT");
+        console.log(`${req.body.crowdid}`);
+        res.send("deleted!");
       }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
-
-      res.send("registered!");
     }
   );
 });
@@ -257,34 +271,7 @@ app.post("/kickmember", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
-    function (error, result) {
-      if (error) {
-        console.log(error);
-        if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
-        } else {
-          res.send(error.code);
-        }
-      }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
-
-      res.send("registered!");
-    }
-  );
-});
-
-// 유저가 모임 탈퇴하기
-app.post("/escapecrowd", (req, res) => {
-  const now = new Date();
-  const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-  const koreaTimeDiff = 9 * 60 * 60 * 1000;
-  const koreaNow = new Date(utcNow + koreaTimeDiff);
-  const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
-
-  db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `DELETE FROM Belong where userId = '${req.body.userId}' and crowdId = '${req.body.crowdId}';`,
     function (error, result) {
       if (error) {
         console.log(error);
