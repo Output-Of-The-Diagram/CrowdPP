@@ -264,6 +264,32 @@ app.post("/deletecrowd", (req, res) => {
   );
 });
 
+// 모임의 리더인지 알려주기
+app.post("/isleader", (req, res) => {
+  const now = new Date();
+  const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+  const koreaTimeDiff = 9 * 60 * 60 * 1000;
+  const koreaNow = new Date(utcNow + koreaTimeDiff);
+  const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
+
+  db.query(
+    `SELECT EXISTS (SELECT userId FROM Belong WHERE (userId = '${req.userId}' and crowdId = '${req.crowdId}' and isLeader = 1) limit 1);`,
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res.json({ msg: error.code });
+      } else {
+        if (result == 0) {
+          res.json({ msg: "notLeader" });
+        } else {
+          const pw = result[0].password;
+          res.json({ msg: "leader" });
+        }
+      }
+    }
+  );
+});
+
 // 유저를 모임에서 강퇴하기
 app.post("/kickmember", (req, res) => {
   const now = new Date();
