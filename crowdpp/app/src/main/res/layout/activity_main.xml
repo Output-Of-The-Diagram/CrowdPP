@@ -20,6 +20,14 @@
         app:itemIconSize="40dp"
         app:itemRippleColor="#8989FF"/>
 
+<<<<<<< HEAD
 
 
+=======
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Text1"
+        android:textSize="50sp"/>
+>>>>>>> f1732ae74e4d5704dd3f40a4adb43cdb3fb92e72
 </RelativeLayout>

@@ -39,5 +39,12 @@
             android:textSize="16dp"/>
     </LinearLayout>
 
+    <Button
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:text="메인 화면"
+        android:textSize="16dp"
+        android:id="@+id/goMainButton"/>
+
 
 </LinearLayout>
