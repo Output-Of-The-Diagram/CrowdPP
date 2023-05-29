@@ -49,6 +49,29 @@ public class CrowdActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean isLeader = false; // 리더인지 확인
+                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+                String id = sharedPreferences.getString("id", "");
+                call = RetrofitClient.getApiService().isLeader(id, );
+                call.enqueue(new Callback<Result>(){
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.code() == 200) {
+                            Result result = response.body();
+                            String msg = result.getMsg();
+                            if (msg.equals("notLeader")) {
+                                isLeader = false;
+                            } else if (msg.equals("leader")) {
+                                isLeader = true;
+                            }
+                            System.out.println(msg);
+                        } else {
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        Log.e("request fail", t.getMessage());
+                    }
+                });
 //                리더인지 확인하여 isLeader 설정
                 if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
                     AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
