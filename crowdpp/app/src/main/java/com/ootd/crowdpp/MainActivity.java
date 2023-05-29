@@ -53,33 +53,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-        TextView textView = findViewById(R.id.Text1);
-
-        call = RetrofitClient.getApiService().test_my_server();
-
-        call.enqueue(new Callback<DataModel>(){
-            @Override
-            public void onResponse(Call<DataModel> call, Response<DataModel> response) {
-                if (response.code() == 200) {
-                    DataModel result = response.body();
-//                    textViewId.setText(result.getName());
-//                    textViewAutohr.setText(result.getCity());
-                    Log.e("TEST1", result.getName());
-                    textView.setText(result.getName());
-                    System.out.println(result);
-                } else {
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DataModel> call, Throwable t) {
-                Log.e("TEST2", t.getMessage());
-            }
-        });
-
     }
-
-
 }

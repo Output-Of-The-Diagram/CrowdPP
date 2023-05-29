@@ -12,9 +12,9 @@ public class CrowdData {
     @Expose
     private String name;
 
-    @SerializedName("leaderID")
+    @SerializedName("crowdID")
     @Expose
-    private String leaderID;
+    private int crowdID;
 
     @SerializedName("introduction")
     @Expose
@@ -28,8 +28,8 @@ public class CrowdData {
         return name;
     }
 
-    public String getLeaderID() {
-        return leaderID;
+    public int getCrowdID() {
+        return crowdID;
     }
 
     public String getIntroduction() {
@@ -40,12 +40,12 @@ public class CrowdData {
         this.image = image;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setLeaderID(String leaderID){
-        this.leaderID = leaderID;
+    public void setCrowdID(int crowdID){
+        this.crowdID = crowdID;
     }
 
     public void setIntroduction(String introduction){
