@@ -11,4 +11,14 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/createCrowd"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/create_crowd"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginRight="40dp"/>
 </RelativeLayout>
