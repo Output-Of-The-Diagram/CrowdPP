@@ -7,13 +7,13 @@
 
 
     <EditText
-        android:id="@+id/login_id"
+        android:id="@+id/idInput"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="ID"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
     <EditText
-        android:id="@+id/login_pw"
+        android:id="@+id/pwInput"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="PW"
@@ -29,14 +29,16 @@
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:text="로그인"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:id="@+id/loginButton"/>
 
         <Button
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="회원가입"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:id="@+id/signupButton"/>
     </LinearLayout>
 
     <Button
