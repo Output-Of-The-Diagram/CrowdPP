@@ -200,7 +200,7 @@ app.post("/applycrowd", (req, res) => {
         }
       }else {
         console.log("POST ACCOUNT");
-        console.log(`${req.body.userId}', '${req.body.crowdId}', '${formattedDate}`);
+        console.log(`'${req.body.userId}', '${req.body.crowdId}', '${formattedDate}'`);
         res.json({msg : "registered!"});
       }
       
@@ -215,24 +215,35 @@ app.post("/processapply", (req, res) => {
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const koreaNow = new Date(utcNow + koreaTimeDiff);
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
-
+  if (req.body.isAccept === 0) {
+    db.query(
+      `INSERT INTO Belong VALUES ('${req.userId}, ${req.crowdId}', False);`,
+      function (error, result) {
+        if (error) {
+          if (error.code === "ER_DUP_ENTRY") {
+            res.json({msg : "already member!"});
+          } else {
+            res.json({msg : error.code});
+          }
+        }else {
+          console.log("POST ACCOUNT");
+          console.log(`'${req.body.userId}', '${req.body.crowdId}'`);
+          res.json({msg : "accepted!"});
+        }
+      }
+    );
+  }
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `DELETE FROM Request WHERE userId = '${req.userId}' and crowdID = '${req.crowdId}'`,
     function (error, result) {
       if (error) {
         console.log(error);
-        if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
-        } else {
-          res.send(error.code);
-        }
       }
       console.log("POST ACCOUNT");
       console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
-
-      res.send("registered!");
     }
   );
+  
 });
 
 // 모임 삭제하기
@@ -248,15 +259,11 @@ app.post("/deletecrowd", (req, res) => {
     function (error, result) {
       if (error) {
         console.log(error);
-        if (error.code === "ER_DUP_ENTRY") {
-          res.json({msg : "already Exist!"});
-        } else {
-          res.json({msg : error.code});
-        }
+        res.json({msg : error.code});
       }else {
         console.log("POST ACCOUNT");
         console.log(`${req.body.crowdid}`);
-        res.send("deleted!");
+        res.json({msg : "deleted!"});
       }
     }
   );
@@ -275,16 +282,14 @@ app.post("/kickmember", (req, res) => {
     function (error, result) {
       if (error) {
         console.log(error);
-        if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
-        } else {
-          res.send(error.code);
-        }
-      }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
+        res.send(error.code);
+      }else {
+        console.log("POST ACCOUNT");
+        console.log(`'${req.body.userId}', '${req.body.crowdId}'`);
 
-      res.send("registered!");
+        res.json({msg : "registered!"});
+      }
+      
     }
   );
 });
