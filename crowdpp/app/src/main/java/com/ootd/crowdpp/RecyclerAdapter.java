@@ -1,6 +1,7 @@
 package com.ootd.crowdpp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     ArrayList<CrowdData> CrowdDataArray = new ArrayList<>();
-//    Context context;
+    Context context;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -43,10 +45,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         CrowdDataArray.add(crowdData);
     }
 
-//    public RecyclerAdapter(ArrayList<CrowdData> CrowdDataArray, Context context) {
-//        this.CrowdDataArray = CrowdDataArray;
-//        this.context = context;
-//    }
+    public RecyclerAdapter(ArrayList<CrowdData> CrowdDataArray, Context context) {
+        this.CrowdDataArray = CrowdDataArray;
+        this.context = context;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -59,6 +61,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "MESSI", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Crowd를 누르면 해당 Crowd의 멤버들 출력
+        CardView cardView = view.findViewById(R.id.card_view);
+        cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
+                context.startActivity(intent);
             }
         });
         return new ViewHolder(view);
