@@ -45,6 +45,16 @@ public interface RetrofitInterface {
     Call<Result> checkId(
             @Field("id") String id
     );
+
+    @FormUrlEncoded
+    @POST("/makecrowd/")
+    Call<Result> makecrowd(
+        @Field("crowdName") String crowdName,
+        @Field("crowdExplain") String crowdExplain,
+        @Field("crowdImage") String crowdImage,
+        @Field("userId") String userId
+    );
+
     @GET("/allcrowd/")
     Call<ArrayList<CrowdModel>> getAllCrowd();
 
