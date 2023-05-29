@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/idInput"
-        android:layout_width="301dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        androgid:layout_height="wrap_content"
         android:hint="ID"
         android:textSize="20dp" />
     <EditText
