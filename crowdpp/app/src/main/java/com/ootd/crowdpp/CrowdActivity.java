@@ -48,24 +48,49 @@ public class CrowdActivity extends AppCompatActivity {
         escapeCrowdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
-                builder.setMessage("정말 탈퇴하시겠습니까?");
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int whichButton){
+                boolean isLeader = false; // 리더인지 확인
+//                리더인지 확인하여 isLeader 설정
+                if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+                    builder.setMessage("정말 탈퇴하시겠습니까?");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int whichButton){
 //
 //                        탈퇴 구현해주세요
 //
-                        dialog.cancel();
-                    }
-                });
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else{ // 리더가 버튼을 클릭하면 모임 삭제
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+                    builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int whichButton){
+//
+//                        Crowd 삭제 구현해주세요
+//
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
             }
         });
 
