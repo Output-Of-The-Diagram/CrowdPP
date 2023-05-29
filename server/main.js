@@ -59,6 +59,7 @@ app.get("/allmember/:crowdId", (req, res) => {
 // POST METHOD
 // 회원가입 요청
 app.post("/signup", (req, res) => {
+  console.log("enter signup");
   const now = new Date();
   const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
@@ -66,29 +67,23 @@ app.post("/signup", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO User(id, password, joinDate, name, gender, e_mail) VALUE ('${req.body.id}', '${req.body.pw}', '${formattedDate}', '지훈', NULL, NULL);`,
+    `INSERT INTO User(id, password, joinDate, name, gender, e_mail) VALUE ('${req.body.id}', '${req.body.pw}', '${formattedDate}', '지훈', NULL, '${req.body.email}');`,
     function (error, result) {
       if (error) {
-        console.log("DB QUERY ERROR");
         console.log(error);
+        if (error.code === "ER_DUP_ENTRY") {
+          console.log("duplicated pk");
+          res.json({ msg: "duplicated" });
+          return;
+        } else {
+          res.send(error.code);
+        }
+      } else {
+        res.json({ msg: "success" });
       }
-      // const valueArray = Object.values(result[0]);
-      // const pw = valueArray[1];
-      // if (result == 0) {
-      //   res.send("notRegistered");
-      // } else {
-      //   if (pw === req.body.pw) {
-      //     console.log("POST LOGIN");
-      //     console.log(`ACCOUNT: ${req.body.id}`);
-      //     res.send("allow");
-      //   } else {
-      //     res.send("wrongPW");
-      //   }
-      // }
     }
   );
   console.log(req.body);
-  res.json({ msg: "success register" });
 });
 
 // 로그인 요청

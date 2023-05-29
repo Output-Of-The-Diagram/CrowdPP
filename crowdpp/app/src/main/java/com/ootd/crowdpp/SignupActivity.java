@@ -5,6 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.ootd.crowdpp.Retrofits.Result;
+import com.ootd.crowdpp.Retrofits.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +28,7 @@ import android.widget.TextView;
 import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
+    Call<Result> call;
     EditText signupId, signupPw, signupCheckPw, signupName, signupEmail;
     TextView textviewFineId, textviewFinePw, textviewCheckPw;
     Button signupBtnSignup, signupBtnFineId;
@@ -63,7 +76,6 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
 //        editText
         signupId = (EditText) findViewById(R.id.signupId);
         signupPw = (EditText) findViewById(R.id.signupPw);
@@ -283,6 +295,38 @@ public class SignupActivity extends AppCompatActivity {
                     //
                     // 모든 조건이 갖춰짐. 회원가입 진행시키면 됨.
                     //
+                  
+                    String inputId = signupId.getText().toString();
+                    String inputPw = signupPw.getText().toString();
+                    String inputName = signupName.getText().toString();
+                    String inputEmail = signupEmail.getText().toString();
+
+                    call = RetrofitClient.getApiService().signup(inputId, inputPw, inputName, inputEmail);
+                    call.enqueue(new Callback<Result>(){
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.code() == 200) {
+                                Result result = response.body();
+                                String msg = result.getMsg();
+                                if (msg.equals("success")) {
+                                    Toast.makeText(SignupActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else if (msg.equals("duplicated")) {
+                                    Toast.makeText(SignupActivity.this, "ID가 중복되었습니다", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SignupActivity.this, msg ,Toast.LENGTH_SHORT).show();
+                                }
+                                System.out.println(msg);
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            Log.e("request fail", t.getMessage());
+                        }
+                    });
+                  
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
                     builder.setMessage("회원가입이 완료되었습니다!");
                     builder.setPositiveButton("로그인하러가기", new DialogInterface.OnClickListener(){
@@ -295,7 +339,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 }

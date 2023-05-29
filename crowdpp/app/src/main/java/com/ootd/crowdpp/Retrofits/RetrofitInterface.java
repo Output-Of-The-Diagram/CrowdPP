@@ -26,6 +26,8 @@ public interface RetrofitInterface {
     @POST("/signup/")
     Call<Result> signup(
             @Field("id") String id,
-            @Field("pw") String pw
+            @Field("pw") String pw,
+            @Field("name") String name,
+            @Field("email") String email
     );
 }
