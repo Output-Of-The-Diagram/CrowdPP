@@ -120,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:inputType="textEmailAddress"
             android:textSize="20dp"/>
 
         <TextView
@@ -155,9 +156,8 @@
         </RadioGroup>
 
 
-
         <Button
-            android:id="@+id/signupButton"
+            android:id="@+id/signupBtnSignup"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
