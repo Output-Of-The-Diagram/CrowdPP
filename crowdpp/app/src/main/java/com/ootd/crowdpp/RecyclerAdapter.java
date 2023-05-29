@@ -3,6 +3,7 @@ package com.ootd.crowdpp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ootd.crowdpp.Retrofits.Result;
@@ -32,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     String userId;
 //    Context context;
+    Context context;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,10 +59,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         CrowdDataArray.add(crowdData);
     }
 
-//    public RecyclerAdapter(ArrayList<CrowdData> CrowdDataArray, Context context) {
-//        this.CrowdDataArray = CrowdDataArray;
-//        this.context = context;
-//    }
+    public RecyclerAdapter(ArrayList<CrowdData> CrowdDataArray, Context context) {
+        this.CrowdDataArray = CrowdDataArray;
+        this.context = context;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -69,6 +72,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         SharedPreferences sharedPreferences = viewGroup.getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("id", "");
 
+        Button applyButton = view.findViewById(R.id.applyButton);
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "MESSI", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Crowd를 누르면 해당 Crowd의 멤버들 출력
+        CardView cardView = view.findViewById(R.id.card_view);
+        cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
+                context.startActivity(intent);
+            }
+        });
         return new ViewHolder(view);
     }
 

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ootd.crowdpp.Retrofits.CrowdModel;
@@ -36,6 +37,8 @@ public class AllCrowdFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     private RecyclerAdapter adapter;
+    ArrayList<CrowdData> CrowdDataArray;
+    ImageView createCrowd;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,12 +84,23 @@ public class AllCrowdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_crowd, container, false);
+        // + 버튼을 누를 시 모임 생성
+        createCrowd = v.findViewById(R.id.createCrowd);
+        createCrowd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // RecyclerView를 통해 모임 리스트 나열
+        CrowdDataArray = new ArrayList<>();
 
         recyclerView = v.findViewById(R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(CrowdDataArray, getContext());
         recyclerView.setAdapter(adapter);
 
         getData();
