@@ -10,25 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Crowd 이름을 입력해주세요"
+        android:text="Crowd 생성"
         android:textSize="18dp"/>
 
     <EditText
         android:id="@+id/createCrowdName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:hint="Crowd 이름을 입력해주세요"
         android:gravity="center"/>
 
     <EditText
         android:id="@+id/createCrowdExplain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:hint="Crowd 설명을 입력해주세요"
         android:gravity="center"/>
 
     <EditText
         android:id="@+id/createRepresentImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:hint="Crowd 이미지를 등록해주세요"
         android:gravity="center"/>
 
     <Button
