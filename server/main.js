@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "1005cyl1005*",
+  password: "wlgns620",
   database: "CrowdPP",
   port: "3306",
 });
@@ -51,14 +51,18 @@ app.get("/mycrowd/:userId", (req, res) => {
 
 // 특정 crowd에 속한 모든 유저의 정보를 리턴
 app.get("/allmember/:crowdId", (req, res) => {
-  const crowdId = req.params.crowdId;
-  db.query(`SELECT * FROM Crowd`, function (error, result) {
-    if (error) {
-      console.log("DB QUERY ERROR");
-      console.log(error);
+  console.log(req.params.crowdId);
+  db.query(
+    `SELECT userID FROM Belong WHERE crowdID = '${req.params.crowdId}'`,
+    function (error, result) {
+      if (error) {
+        console.log("DB QUERY ERROR");
+        console.log(error);
+      }
+      console.log(result);
+      res.json(result);
     }
-    res.send(result);
-  });
+  );
 });
 
 // POST METHOD
@@ -123,15 +127,15 @@ app.post("/login", (req, res) => {
         console.log(error);
       }
       if (result == []) {
-        res.json({msg : "notRegistered"});
+        res.json({ msg: "notRegistered" });
       } else {
         const pw = result[0].password;
         if (pw === req.body.pw) {
           console.log("POST LOGIN");
           console.log(`ACCOUNT: ${req.body.id}`);
-          res.json({msg : "allow"});
-        } else { 
-          res.json({msg : "wrongPW"});
+          res.json({ msg: "allow" });
+        } else {
+          res.json({ msg: "wrongPW" });
         }
       }
     }

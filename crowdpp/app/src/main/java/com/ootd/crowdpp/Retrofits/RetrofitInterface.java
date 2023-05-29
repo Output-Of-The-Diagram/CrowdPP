@@ -47,4 +47,9 @@ public interface RetrofitInterface {
     );
     @GET("/allcrowd/")
     Call<ArrayList<CrowdModel>> getAllCrowd();
+
+    @GET("/allmember/{crowdId}")
+    Call<ArrayList<UserModel>> getAllMember(
+        @Path("crowdId") int crowdId
+    );
 }
