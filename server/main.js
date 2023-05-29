@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "wlgns620",
+  password: "1005cyl1005*",
   database: "CrowdPP",
   port: "3306",
 });
@@ -93,31 +93,29 @@ app.post("/signup", (req, res) => {
 
 // 로그인 요청
 app.post("/login", (req, res) => {
-  // db.query(
-  //   `SELECT id, cast(AES_DECRYPT(UNHEX(password), 'messi') as char(100)) FROM Member WHERE id='${req.body.id}'`,
-  //   function (error, result) {
-  //     if (error) {
-  //       console.log("DB QUERY ERROR");
-  //       console.log(error);
-  //     }
-  //     const valueArray = Object.values(result[0]);
-  //     const pw = valueArray[1];
-  //     if (result == 0) {
-  //       res.send("notRegistered");
-  //     } else {
-  //       if (pw === req.body.pw) {
-  //         console.log("POST LOGIN");
-  //         console.log(`ACCOUNT: ${req.body.id}`);
-  //         res.send("allow");
-  //       } else {
-  //         res.send("wrongPW");
-  //       }
-  //     }
-  //   }
-  // );
+  db.query(
+    `SELECT id, password FROM User WHERE id='${req.body.id}'`,
+    function (error, result) {
+      if (error) {
+        console.log("DB QUERY ERROR");
+        console.log(error);
+      }
+      if (result == []) {
+        res.json({msg : "notRegistered"});
+      } else {
+        const pw = result[0].password;
+        if (pw === req.body.pw) {
+          console.log("POST LOGIN");
+          console.log(`ACCOUNT: ${req.body.id}`);
+          res.json({msg : "allow"});
+        } else { 
+          res.json({msg : "wrongPW"});
+        }
+      }
+    }
+  );
   console.log(req.body);
   console.log(req.body.id);
-  res.json({ msg: "good" });
 });
 
 // crowd 생성 요청
