@@ -66,8 +66,7 @@ app.post("/signup", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO User(id, password, joinDate, name, gender, e_mail)
-    VALUE ('${req.body.id}, ${req.body.pw}', '${formattedDate}', '지훈', ${req.gender}, ${req.e_mail}');`,
+    `INSERT INTO User(id, password, joinDate, name, gender, e_mail) VALUE ('${req.body.id}', '${req.body.pw}', '${formattedDate}', '지훈', NULL, NULL);`,
     function (error, result) {
       if (error) {
         console.log("DB QUERY ERROR");
