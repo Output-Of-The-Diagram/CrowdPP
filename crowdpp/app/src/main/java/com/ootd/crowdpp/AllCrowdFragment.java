@@ -1,5 +1,7 @@
 package com.ootd.crowdpp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ootd.crowdpp.Retrofits.CrowdModel;
@@ -106,7 +109,7 @@ public class AllCrowdFragment extends Fragment {
                         crowd.setImage(result.get(i).getId());
                         crowd.setName(result.get(i).getName());
                         crowd.setIntroduction(result.get(i).getExplain());
-                        crowd.setLeaderID(result.get(i).getExplain());
+                        crowd.setCrowdID(result.get(i).getId());
                         adapter.addItem(crowd);
                     }
                     adapter.notifyDataSetChanged();
@@ -120,27 +123,5 @@ public class AllCrowdFragment extends Fragment {
                 Log.e("request fail", t.getMessage());
             }
         });
-
-
-//        CrowdData crowd1 = new CrowdData();
-//        crowd1.setImage(1);
-//        crowd1.setName("국민대 조기축구단");
-//        crowd1.setIntroduction("우리는 대한민국을 지배하러온 국민대 조기축구단이다");
-//        crowd1.setLeaderID("leader1");
-//
-//        CrowdData crowd2 = new CrowdData();
-//        crowd2.setImage(1);
-//        crowd2.setName("1일1백준 정예용사");
-//        crowd2.setIntroduction("1일 1백준을 실천하지 않을 시 손모가지를 자른다");
-//        crowd2.setLeaderID("leader2");
-//
-////        ArrayList<CrowdData> crowdData = new ArrayList<>();
-////        crowdData.add(crowd1);
-////        crowdData.add(crowd2);
-//
-//        adapter.addItem(crowd1);
-//        adapter.addItem(crowd2);
-
-        adapter.notifyDataSetChanged();
     }
 }

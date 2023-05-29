@@ -171,6 +171,7 @@ app.post("/makecrowd", (req, res) => {
 
 // 모임 가입 신청 요청
 app.post("/applycrowd", (req, res) => {
+  console.log(req.body);
   const now = new Date();
   const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
@@ -178,20 +179,17 @@ app.post("/applycrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Member (id, password, create_date) VALUES ('${req.body.id}', HEX(AES_ENCRYPT('${req.body.pw}', 'messi')), '${formattedDate}')`,
+    `INSERT INTO Request (userID, crowdID, applyDate) VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
     function (error, result) {
       if (error) {
-        console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
-          res.send("already Exist!");
+          res.json({ msg: "duplicated" });
         } else {
           res.send(error.code);
         }
+      } else {
+        res.json({ msg: "success" });
       }
-      console.log("POST ACCOUNT");
-      console.log(`${req.body.id}', '${req.body.pw}', '${formattedDate}`);
-
-      res.send("registered!");
     }
   );
 });
