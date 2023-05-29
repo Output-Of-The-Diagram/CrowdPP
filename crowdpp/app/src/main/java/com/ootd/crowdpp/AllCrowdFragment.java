@@ -33,6 +33,7 @@ public class AllCrowdFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     private RecyclerAdapter adapter;
+    ArrayList<CrowdData> CrowdDataArray;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,11 +80,13 @@ public class AllCrowdFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_crowd, container, false);
 
+        CrowdDataArray = new ArrayList<>();
+
         recyclerView = v.findViewById(R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(CrowdDataArray, getContext());
         recyclerView.setAdapter(adapter);
 
         getData();
