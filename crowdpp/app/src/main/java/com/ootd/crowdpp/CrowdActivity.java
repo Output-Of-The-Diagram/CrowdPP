@@ -1,10 +1,15 @@
 package com.ootd.crowdpp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +30,7 @@ public class CrowdActivity extends AppCompatActivity {
 
     ArrayList<MembersData> members;
     int crowdId;
+    ImageView escapeCrowdButton;
 
 
 
@@ -38,6 +44,30 @@ public class CrowdActivity extends AppCompatActivity {
 
         getData(crowdId);
 
+        escapeCrowdButton = findViewById(R.id.escapeCrowdButton);
+        escapeCrowdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+                builder.setMessage("정말 탈퇴하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int whichButton){
+//
+//                        탈퇴 구현해주세요
+//
+                        dialog.cancel();
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
 
     }
