@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "wlgns620",
+  password: "1005cyl1005*",
   database: "CrowdPP",
   port: "3306",
 });
@@ -151,6 +151,7 @@ app.post("/makecrowd", (req, res) => {
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const koreaNow = new Date(utcNow + koreaTimeDiff);
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
+  console.log("make")
 
   db.query(
     `INSERT INTO Crowd VALUE ('${req.body.id}, ${req.body.name}', NOW(), '${req.body.explane}, ${req.body.representImage}');`,
@@ -195,7 +196,7 @@ app.post("/applycrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Request (userID, crowdID, applyDate) VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
+    `INSERT INTO Request VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
     function (error, result) {
       if (error) {
         if (error.code === "ER_DUP_ENTRY") {
