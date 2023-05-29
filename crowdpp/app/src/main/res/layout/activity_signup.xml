@@ -1,6 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이디"
+            android:textSize="15dp"
+            android:gravity="center_vertical"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/signupId"
+                android:layout_width="245dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:textSize="20dp"
+                android:hint="6자 이상의 영문, 숫자"/>
+
+            <Button
+                android:id="@+id/signupBtnFineId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중복 확인"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textviewFineId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="비밀번호"
+            android:textSize="15dp"/>
+
+        <EditText
+            android:id="@+id/signupPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            android:hint="6자 이상의 영문, 숫자, 특수문자"/>
+        <TextView
+            android:id="@+id/textviewFinePw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="비밀번호 확인"
+            android:textSize="15dp"
+            android:gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/signupCheckPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            android:hint="비밀번호를 한 번 더 입력하세요"/>
+
+        <TextView
+            android:id="@+id/textviewCheckPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"/>
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="이름"
+            android:textSize="15dp"
+            android:gravity="center_vertical"/>
+
+
+        <EditText
+            android:id="@+id/signupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="이메일"
+            android:textSize="15dp"
+            android:gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/signupEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="개인정보 사용 약관"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text=" 수집항목: 아이디, 비밀번호, 이름, 이메일\n
+위 필수수집 동의를 하지 않는 경우 가입이 제한됩니다."/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioNotAccept"
+                android:layout_marginLeft="110dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동의하지 않습니다"/>
+
+            <RadioButton
+                android:id="@+id/radioAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동의합니다"/>
+
+        </RadioGroup>
+
+
+
+        <Button
+            android:id="@+id/btnJoin"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"/>
+
+
+    </LinearLayout>
+</ScrollView>
