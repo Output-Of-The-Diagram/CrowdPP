@@ -30,6 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private TextView textviewName;
     private TextView textviewIntroduction;
     private Button applyButton;
+    private CardView cardView;
     ArrayList<CrowdData> CrowdDataArray = new ArrayList<>();
 
     String userId;
@@ -46,6 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             textviewName = view.findViewById(R.id.item_name);
             textviewIntroduction = view.findViewById(R.id.item_introduction);
             applyButton = view.findViewById(R.id.applyButton);
+            cardView = view.findViewById(R.id.card_view);
         }
 
         void onBind(CrowdData crowdData){
@@ -80,15 +82,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         });
 
-        // Crowd를 누르면 해당 Crowd의 멤버들 출력
-        CardView cardView = view.findViewById(R.id.card_view);
-        cardView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
-                context.startActivity(intent);
-            }
-        });
         return new ViewHolder(view);
     }
 
@@ -100,6 +93,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // contents of the view with that element
         viewHolder.onBind(CrowdDataArray.get(position));
         int crowdId = CrowdDataArray.get(position).getCrowdID();
+
+        // 신청하기 버튼 누르면 서버 통신
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +123,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         Log.e("request fail", t.getMessage());
                     }
                 });
+            }
+        });
+
+        // Crowd를 누르면 해당 Crowd의 멤버들 출력
+        cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
+                intent.putExtra("crowdId", CrowdDataArray.get(position).getCrowdID());
+                context.startActivity(intent);
             }
         });
     }
