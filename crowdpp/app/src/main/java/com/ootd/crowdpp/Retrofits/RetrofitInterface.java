@@ -34,6 +34,13 @@ public interface RetrofitInterface {
     );
 
     @FormUrlEncoded
+    @POST("/applycrowd/")
+    Call<Result> applycrowd(
+            @Field("userId") String userId,
+            @Field("crowdId") int crowdId
+    );
+
+    @FormUrlEncoded
     @POST("/checkId/")
     Call<Result> checkId(
             @Field("id") String id

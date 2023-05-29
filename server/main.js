@@ -182,6 +182,7 @@ app.post("/makecrowd", (req, res) => {
 
 // 모임 가입 신청 요청
 app.post("/applycrowd", (req, res) => {
+  console.log(req.body);
   const now = new Date();
   const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
@@ -192,7 +193,6 @@ app.post("/applycrowd", (req, res) => {
     `INSERT INTO Request VALUE ('${req.body.userId}, ${req.body.crowdId}', NOW());`,
     function (error, result) {
       if (error) {
-        console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
           res.json({msg : "already requested"});
         } else {
