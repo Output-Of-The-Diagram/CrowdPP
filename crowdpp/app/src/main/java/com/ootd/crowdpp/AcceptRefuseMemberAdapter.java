@@ -1,24 +1,20 @@
 package com.ootd.crowdpp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 
-public class MembersAdapter extends BaseAdapter {
+public class AcceptRefuseMemberAdapter extends BaseAdapter {
     Context mContext = null;
     LayoutInflater mLayoutInflater = null;
     ArrayList<MembersData> Members = new ArrayList<>();
 
-    public MembersAdapter(Context context, ArrayList<MembersData> members) {
+    public AcceptRefuseMemberAdapter(Context context, ArrayList<MembersData> members) {
         mContext = context;
         Members = members;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -41,23 +37,10 @@ public class MembersAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View converView, ViewGroup parent) {
-        View view = mLayoutInflater.inflate(R.layout.card_members, null);
-        TextView memberName = view.findViewById(R.id.memberName);
+        View view = mLayoutInflater.inflate(R.layout.card_acceptrefuse, null);
+        TextView memberName = view.findViewById(R.id.arMemberName);
 
         memberName.setText(Members.get(position).getMembers());
-
-        Button kickMemberButton = view.findViewById(R.id.kickMemberButton);
-        // 이 사람이 리더인지 확인 필요
-        boolean isLeader = true;
-        if (isLeader){
-            kickMemberButton.setVisibility(View.VISIBLE); // 리더라면 추방 버튼 활성화
-        }
-        kickMemberButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                추방하는거 짜주세요
-            }
-        });
 
         return view;
     }
