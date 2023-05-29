@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "wlgns620",
+  password: "1005cyl1005*",
   database: "CrowdPP",
   port: "3306",
 });
@@ -151,6 +151,7 @@ app.post("/makecrowd", (req, res) => {
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const koreaNow = new Date(utcNow + koreaTimeDiff);
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
+  console.log("make")
 
   db.query(
     `INSERT INTO Crowd (name, genDate, description, representImage) VALUE ('${req.body.crowdName}', NOW(), '${req.body.crowdExplain}', '${req.body.crowdImage}');`,
@@ -188,7 +189,7 @@ app.post("/applycrowd", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `INSERT INTO Request (userID, crowdID, applyDate) VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
+    `INSERT INTO Request VALUES ('${req.body.userId}', '${req.body.crowdId}', '${formattedDate}')`,
     function (error, result) {
       if (error) {
         if (error.code === "ER_DUP_ENTRY") {
@@ -258,6 +259,32 @@ app.post("/deletecrowd", (req, res) => {
         console.log("POST ACCOUNT");
         console.log(`${req.body.crowdid}`);
         res.json({ msg: "deleted!" });
+      }
+    }
+  );
+});
+
+// 모임의 리더인지 알려주기
+app.post("/isleader", (req, res) => {
+  const now = new Date();
+  const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+  const koreaTimeDiff = 9 * 60 * 60 * 1000;
+  const koreaNow = new Date(utcNow + koreaTimeDiff);
+  const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
+
+  db.query(
+    `SELECT EXISTS (SELECT userId FROM Belong WHERE (userId = '${req.userId}' and crowdId = '${req.crowdId}' and isLeader = 1) limit 1);`,
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res.json({ msg: error.code });
+      } else {
+        if (result == 0) {
+          res.json({ msg: "notLeader" });
+        } else {
+          const pw = result[0].password;
+          res.json({ msg: "leader" });
+        }
       }
     }
   );
