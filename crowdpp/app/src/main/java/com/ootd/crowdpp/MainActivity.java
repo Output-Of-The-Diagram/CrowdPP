@@ -50,9 +50,11 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, allCrowdFragment).commitAllowingStateLoss();
                 }
                 else if (item.getItemId() == R.id.item_myCrowd){
+                    Log.d("MainActivity", "Item Setting Clicked"); // 로그 추가
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, myCrowdFragment).commitAllowingStateLoss();
                 }
                 else if (item.getItemId() == R.id.item_setting){
+                    Log.d("MainActivity", "Item Setting Clicked"); // 로그 추가
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, settingFragment).commitAllowingStateLoss();
                 }
                 return true;
