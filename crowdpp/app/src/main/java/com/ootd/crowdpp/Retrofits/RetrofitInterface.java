@@ -34,6 +34,19 @@ public interface RetrofitInterface {
     );
 
     @FormUrlEncoded
+    @POST("/kickmember/")
+    Call<Result> kickmember(
+            @Field("userId") String userId,
+            @Field("crowdId") int crowdId
+    );
+
+    @FormUrlEncoded
+    @POST("/deletecrowd/")
+    Call<Result> deletecrowd(
+            @Field("crowdId") int crowdId
+    );
+
+    @FormUrlEncoded
     @POST("/applycrowd/")
     Call<Result> applycrowd(
             @Field("userId") String userId,
@@ -55,8 +68,20 @@ public interface RetrofitInterface {
         @Field("userId") String userId
     );
 
+    @FormUrlEncoded
+    @POST("/isleader/")
+    Call<Result> isleader(
+        @Field("userId") String userId,
+        @Field("crowdId") int crowdId
+    );
+
     @GET("/allcrowd/")
     Call<ArrayList<CrowdModel>> getAllCrowd();
+
+    @GET("/mycrowd/{userId}")
+    Call<ArrayList<CrowdModel>> getMyCrowd(
+        @Path("userId") String userId
+    );
 
     @GET("/allmember/{crowdId}")
     Call<ArrayList<UserModel>> getAllMember(
