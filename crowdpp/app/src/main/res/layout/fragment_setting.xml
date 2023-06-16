@@ -7,8 +7,37 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crowd_PP"
+        android:textSize="40dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.1.1"
+        android:textSize="30dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@android:dimen/app_icon_size"
+        android:text="회원탈퇴"
+        android:textSize="20dp" />
+
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="로그아웃"
+        android:textSize="20dp" />
 
 </FrameLayout>
