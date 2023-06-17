@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "jacob9897!",
+  password: "1234",
   database: "CrowdPP",
   port: "3306",
 });
@@ -157,7 +157,7 @@ app.post("/makecrowd", (req, res) => {
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const koreaNow = new Date(utcNow + koreaTimeDiff);
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
-  console.log("make")
+  console.log("make");
 
   db.query(
     `INSERT INTO Crowd (name, genDate, description, representImage) VALUE ('${req.body.crowdName}', NOW(), '${req.body.crowdExplain}', '${req.body.crowdImage}');`,
@@ -279,13 +279,13 @@ app.post("/isleader", (req, res) => {
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
 
   db.query(
-    `SELECT EXISTS (SELECT userId FROM Belong WHERE (userId = '${req.userId}' and crowdId = '${req.crowdId}' and isLeader = 1) limit 1);`,
+    `SELECT EXISTS (SELECT userId FROM Belong WHERE (userId = '${req.body.userId}' and crowdId = '${req.body.crowdId}' and isLeader = 1) limit 1) AS result;`,
     function (error, result) {
       if (error) {
         console.log(error);
         res.json({ msg: error.code });
       } else {
-        if (result == 0) {
+        if (result[0]["result"] == 0) {
           res.json({ msg: "notLeader" });
         } else {
           const pw = result[0].password;

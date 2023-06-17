@@ -70,7 +70,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("/isleader/")
-    Call<Result> isleader(
+    Call<Result> isLeader(
         @Field("userId") String userId,
         @Field("crowdId") int crowdId
     );
