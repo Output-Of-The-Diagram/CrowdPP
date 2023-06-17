@@ -60,6 +60,8 @@ public class SettingFragment extends Fragment {
         logoutButton = view.findViewById(R.id.logoutButton);
 
         SharedPreferences shPreferences = requireContext().getSharedPreferences("userInfo", MODE_PRIVATE);
+        //로그ㅡ아웃
+        
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
