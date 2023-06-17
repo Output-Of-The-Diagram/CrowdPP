@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "1005cyl1005*",
+  password: "456123",
   database: "CrowdPP",
   port: "3306",
 });
