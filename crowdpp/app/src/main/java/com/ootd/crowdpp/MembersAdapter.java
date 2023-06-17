@@ -101,7 +101,7 @@ public class MembersAdapter extends BaseAdapter {
         kickMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
 
                 builder.setMessage("정말 추방하시겠습니까?");
 
