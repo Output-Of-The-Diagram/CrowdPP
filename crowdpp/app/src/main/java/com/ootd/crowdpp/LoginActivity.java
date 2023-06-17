@@ -21,6 +21,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     Call<Result> call;
+    Boolean isLogined = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +34,21 @@ public class LoginActivity extends AppCompatActivity {
         EditText idInput = findViewById(R.id.idInput);
         EditText pwInput = findViewById(R.id.pwInput);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("loginUserInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         String id = sharedPreferences.getString("id", "");
         String pw = sharedPreferences.getString("pw", "");
-        idInput.setText(id);
-        pwInput.setText(pw);
+
+        idInput.setText(id); // id 자동저장
+        pwInput.setText(pw); // pw 자동저장
+
 
         goMainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                editor.putBoolean("isLogined", false);
+                editor.apply();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -52,6 +59,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String inputId = idInput.getText().toString();
                 String inputPw = pwInput.getText().toString();
+
+                editor.putString("id", inputId);
+                editor.putString("pw", inputPw);
+                editor.putBoolean("isLogined", true);
+                editor.apply();
 
                 call = RetrofitClient.getApiService().login(inputId, inputPw);
                 call.enqueue(new Callback<Result>(){
@@ -69,6 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                         Log.e("TEST2", t.getMessage());
                     }
                 });
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

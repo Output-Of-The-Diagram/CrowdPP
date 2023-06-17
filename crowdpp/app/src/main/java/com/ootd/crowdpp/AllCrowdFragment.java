@@ -110,7 +110,7 @@ public class AllCrowdFragment extends Fragment {
                 createCrowdButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginUserInfo", Context.MODE_PRIVATE);
                         String userId = sharedPreferences.getString("id", "");
                         System.out.println(userId);
                         System.out.println("@@@@@@@@@@@@@@@");
