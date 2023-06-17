@@ -2,6 +2,7 @@ package com.ootd.crowdpp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class MembersAdapter extends BaseAdapter {
     public View getView(int position, View converView, ViewGroup parent) {
         View view = mLayoutInflater.inflate(R.layout.card_members, null);
         TextView memberName = view.findViewById(R.id.memberName);
+
 
         memberName.setText(Members.get(position).getMembers());
 
