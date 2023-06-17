@@ -152,7 +152,7 @@ public class CrowdActivity extends AppCompatActivity {
     // Crowd 탈퇴, 삭제와 관련된 기능
     public void EscapeAndRemoveCrowd(){
         // 리더인지 확인
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("loginUserInfo", MODE_PRIVATE);
         String userId = sharedPreferences.getString("id", "");
         Call<Result> call;
         call = RetrofitClient.getApiService().isLeader(userId, crowdId);

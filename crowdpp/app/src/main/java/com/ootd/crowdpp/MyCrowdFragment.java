@@ -100,34 +100,41 @@ public class MyCrowdFragment extends Fragment {
     }
 
     private void getData(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginUserInfo", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("id", "");
-        Call<ArrayList<CrowdModel>> call;
-        call = RetrofitClient.getApiService().getMyCrowd(userId);
-        call.enqueue(new Callback<ArrayList<CrowdModel>>(){
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.code() == 200) {
-                    ArrayList<CrowdModel> result = (ArrayList<CrowdModel>) response.body();
-                    System.out.println(result.size());
-                    for (int i=0; i<result.size(); i++) {
-                        CrowdData crowd = new CrowdData();
-                        crowd.setImage(result.get(i).getId());
-                        crowd.setName(result.get(i).getName());
-                        crowd.setIntroduction(result.get(i).getDescription());
-                        crowd.setCrowdID(result.get(i).getId());
-                        adapter.addItem(crowd);
+        Boolean isLogined = sharedPreferences.getBoolean("isLogined", false);
+        if (isLogined){ // 로그인되어있으면 내가 Leader인 crowd를 보여줌
+            Call<ArrayList<CrowdModel>> call;
+            call = RetrofitClient.getApiService().getMyCrowd(userId);
+            call.enqueue(new Callback<ArrayList<CrowdModel>>(){
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.code() == 200) {
+                        ArrayList<CrowdModel> result = (ArrayList<CrowdModel>) response.body();
+                        System.out.println(result.size());
+                        for (int i=0; i<result.size(); i++) {
+                            CrowdData crowd = new CrowdData();
+                            crowd.setImage(result.get(i).getId());
+                            crowd.setName(result.get(i).getName());
+                            crowd.setIntroduction(result.get(i).getDescription());
+                            crowd.setCrowdID(result.get(i).getId());
+                            adapter.addItem(crowd);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+
                     }
-                    adapter.notifyDataSetChanged();
-                } else {
-
                 }
-            }
 
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e("request fail", t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Log.e("request fail", t.getMessage());
+                }
+            });
+        }
+        else{
+            // 로그인되어있지 않으면 아무 화면도 띄우지 않음
+        }
+
     }
 }
