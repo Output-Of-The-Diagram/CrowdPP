@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationBarView;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ootd.crowdpp.Retrofits.DataModel;
 import com.ootd.crowdpp.Retrofits.RetrofitClient;
@@ -53,7 +55,14 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, myCrowdFragment).commitAllowingStateLoss();
                 }
                 else if (item.getItemId() == R.id.item_setting){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, settingFragment).commitAllowingStateLoss();
+                    SharedPreferences sharedPreferences = getSharedPreferences("loginUserInfo", MODE_PRIVATE);
+                    Boolean isLogined = sharedPreferences.getBoolean("isLogined", false);
+                    if (isLogined){
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainLayout, settingFragment).commitAllowingStateLoss();
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }
