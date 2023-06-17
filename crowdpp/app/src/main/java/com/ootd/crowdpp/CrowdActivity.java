@@ -11,15 +11,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ootd.crowdpp.Retrofits.CrowdModel;
 import com.ootd.crowdpp.Retrofits.Result;
 import com.ootd.crowdpp.Retrofits.RetrofitClient;
 import com.ootd.crowdpp.Retrofits.UserModel;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Member;
 import java.sql.Array;
@@ -30,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CrowdActivity extends AppCompatActivity {
+    // Crowd의 기능들이 담겨있는 파일
 
     ArrayList<MembersData> members;
     int crowdId;
@@ -48,161 +53,29 @@ public class CrowdActivity extends AppCompatActivity {
         System.out.println(Integer.toString(crowdId));
 
         getData(crowdId);
+        isLeader = true; //TODO: 리더인지 아닌지 여부 설정
 
-        escapeCrowdButton = findViewById(R.id.escapeCrowdButton);
-        manageMembersButton = findViewById(R.id.manageMembersButton);
-        escapeCrowdButton.setOnClickListener(new View.OnClickListener() { // 탈퇴, 추방 버튼 클릭
+        escapeCrowdButton = findViewById(R.id.escapeCrowdButton); // Crowd 탈퇴 및 삭제 버튼 (X 모양)
+        manageMembersButton = findViewById(R.id.manageMembersButton); // Crowd에 신청한 멤버 관리 버튼 (톱니 모양)
+
+        // Crowd 탈퇴, 추방 버튼 클릭
+        escapeCrowdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isLeader = false; // 리더인지 확인
-                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-                String userId = sharedPreferences.getString("id", "");
-                Call<Result> call;
-                call = RetrofitClient.getApiService().isleader(userId, crowdId);
-                call.enqueue(new Callback<Result>(){
-                    @Override
-                    public void onResponse(Call<Result> call, Response<Result> response) {
-                        if (response.code() == 200) {
-                            Result result = response.body();
-                            String msg = result.getMsg();
-                            if (msg.equals("notLeader")) {
-                                isLeader = false;
-                            } else if (msg.equals("leader")) {
-                                isLeader = true;
-                            }
-                            System.out.println(msg);
-                        } else {
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Result> call, Throwable t) {
-                        Log.e("request fail", t.getMessage());
-                    }
-                });
-
-//                리더인지 확인하여 isLeader 설정
-                if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
-                    builder.setMessage("정말 탈퇴하시겠습니까?");
-                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                        public void onClick(DialogInterface dialog, int whichButton){
-                            Call<Result> call;
-                            call = RetrofitClient.getApiService().kickmember(userId, crowdId);
-                            call.enqueue(new Callback<Result>(){
-                                @Override
-                                public void onResponse(Call<Result> call, Response<Result> response) {
-                                    if (response.code() == 200) {
-                                        Result result = response.body();
-                                        String msg = result.getMsg();
-                                        if (msg.equals("registered!")) {
-                                        }
-                                        System.out.println(msg);
-                                    } else {
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<Result> call, Throwable t) {
-                                    Log.e("request fail", t.getMessage());
-                                }
-                            });
-                            dialog.cancel();
-                        }
-                    });
-                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-                else{ // 리더가 버튼을 클릭하면 모임 삭제
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
-                    builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
-                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                        public void onClick(DialogInterface dialog, int whichButton){
-                            Call<Result> call;
-                            call = RetrofitClient.getApiService().deletecrowd(crowdId);
-                            call.enqueue(new Callback<Result>(){
-                                @Override
-                                public void onResponse(Call<Result> call, Response<Result> response) {
-                                    if (response.code() == 200) {
-                                        Result result = response.body();
-                                        String msg = result.getMsg();
-                                        if (msg.equals("deleted!")) {
-                                        }
-                                        System.out.println(msg);
-                                    } else {
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<Result> call, Throwable t) {
-                                    Log.e("request fail", t.getMessage());
-                                }
-                            });
-//
-                            dialog.cancel();
-                        }
-                    });
-                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-
+                EscapeAndRemoveCrowd(); // 멤버라면 모임 탈퇴, 리더라면 모임 삭제
             }
         });
 
-        // 멤버 수락 및 거절 관리
-        isLeader = true; // 리더인지 확인 필요
-        if (isLeader){
+
+        if (isLeader & true){ // TODO: belong에 요청이 있을때만 버튼을 활성화시켜야 함(도전과제?)
             manageMembersButton.setVisibility(View.VISIBLE);
         }
+
+        // Crowd에 신청한 멤버 관리 버튼 클릭
         manageMembersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog arManageMembersDialog = new Dialog(CrowdActivity.this);
-                arManageMembersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                arManageMembersDialog.setContentView(R.layout.activity_accept_reply_members_popup);
-                arManageMembersDialog.show();
-
-                ArrayList<MembersData> arMembers = new ArrayList<MembersData>();
-
-                //
-                // response 구현 필요(테스트용 데이터 추가해둠)
-                MembersData member1 = new MembersData("Messi");
-                MembersData member2 = new MembersData("Ronaldo");
-                MembersData member3 = new MembersData("Holland");
-                arMembers.add(member1);
-                arMembers.add(member2);
-                arMembers.add(member3);
-                //
-                //
-
-                ListView arListView = arManageMembersDialog.findViewById(R.id.arListView);
-                MembersAdapter arMembersAdapter = new MembersAdapter(getApplicationContext(), arMembers);
-                arListView.setAdapter(arMembersAdapter);
-
-                Button acceptButton = arManageMembersDialog.findViewById(R.id.arAcceptButton);
-                Button refuseButton = arManageMembersDialog.findViewById(R.id.arRefuseButton);
-                acceptButton.setOnClickListener(new View.OnClickListener() { // 수락 버튼이 눌린 경우
-                    @Override
-                    public void onClick(View v) {
-                        // 수락 완료. Crowd에 멤버 추가. 요청 제거.
-                    }
-                });
-
-                refuseButton.setOnClickListener(new View.OnClickListener() { // 거절 버튼이 눌린 경우
-                    @Override
-                    public void onClick(View v) {
-                        // 거절 완료. 요청 제거.
-                    }
-                });
+                ApplyAndRefuseMembers(); // 멤버 관리
             }
         });
 
@@ -243,6 +116,139 @@ public class CrowdActivity extends AppCompatActivity {
 //        members.add(member2);
 //        members.add(member3);
 
+    }
+
+    // Crowd 탈퇴, 삭제와 관련된 기능
+    public void EscapeAndRemoveCrowd(){
+        isLeader = false; // 리더인지 확인
+          SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+          String userId = sharedPreferences.getString("id", "");
+          Call<Result> call;
+          call = RetrofitClient.getApiService().isleader(userId, crowdId);
+          call.enqueue(new Callback<Result>(){
+              @Override
+              public void onResponse(Call<Result> call, Response<Result> response) {
+                  if (response.code() == 200) {
+                      Result result = response.body();
+                      String msg = result.getMsg();
+                      if (msg.equals("notLeader")) {
+                          isLeader = false;
+                      } else if (msg.equals("leader")) {
+                          isLeader = true;
+                      }
+                      System.out.println(msg);
+                  } else {
+                  }
+              }
+              @Override
+              public void onFailure(Call<Result> call, Throwable t) {
+                  Log.e("request fail", t.getMessage());
+              }
+          });
+
+  //                리더인지 확인하여 isLeader 설정
+          if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
+              AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+              builder.setMessage("정말 탈퇴하시겠습니까?");
+              builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                  public void onClick(DialogInterface dialog, int whichButton){
+                      Call<Result> call;
+                      call = RetrofitClient.getApiService().kickmember(userId, crowdId);
+                      call.enqueue(new Callback<Result>(){
+                          @Override
+                          public void onResponse(Call<Result> call, Response<Result> response) {
+                              if (response.code() == 200) {
+                                  Result result = response.body();
+                                  String msg = result.getMsg();
+                                  if (msg.equals("registered!")) {
+                                  }
+                                  System.out.println(msg);
+                              } else {
+                              }
+                          }
+                          @Override
+                          public void onFailure(Call<Result> call, Throwable t) {
+                              Log.e("request fail", t.getMessage());
+                          }
+                      });
+                      dialog.cancel();
+                  }
+              });
+              builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                      dialog.cancel();
+                  }
+              });
+              AlertDialog dialog = builder.create();
+              dialog.show();
+          }
+          else{ // 리더가 버튼을 클릭하면 모임 삭제
+              AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+              builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
+              builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                  public void onClick(DialogInterface dialog, int whichButton){
+                      Call<Result> call;
+                      call = RetrofitClient.getApiService().deletecrowd(crowdId);
+                      call.enqueue(new Callback<Result>(){
+                          @Override
+                          public void onResponse(Call<Result> call, Response<Result> response) {
+                              if (response.code() == 200) {
+                                  Result result = response.body();
+                                  String msg = result.getMsg();
+                                  if (msg.equals("deleted!")) {
+                                  }
+                                  System.out.println(msg);
+                              } else {
+                              }
+                          }
+                          @Override
+                          public void onFailure(Call<Result> call, Throwable t) {
+                              Log.e("request fail", t.getMessage());
+                          }
+                      });
+  //
+                      dialog.cancel();
+                  }
+              });
+              builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                      dialog.cancel();
+                  }
+              });
+              AlertDialog dialog = builder.create();
+              dialog.show();
+
+    }
+
+    public void ApplyAndRefuseMembers(){
+        Dialog arManageMembersDialog = new Dialog(CrowdActivity.this); // 신청을 넣은 멤버들의 리스트 화면
+        arManageMembersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        arManageMembersDialog.setContentView(R.layout.activity_accept_reply_members_popup);
+        arManageMembersDialog.show();
+
+        ArrayList<MembersData> crowdMembers = new ArrayList<MembersData>(); // Crowd에 소속되어있는 멤버들의 리스트
+
+        // 신청을 넣은 멤버들 수락/거절 관리
+        //
+        ArrayList<MembersData> arMembers = new ArrayList<MembersData>(); // 신청을 넣은 멤버들의 리스트
+        // TODO: response 구현 필요(테스트용 데이터 추가해둠)
+        //
+        MembersData member1 = new MembersData("Messi");
+        MembersData member2 = new MembersData("Ronaldo");
+        MembersData member3 = new MembersData("Holland");
+        arMembers.add(member1);
+        arMembers.add(member2);
+        arMembers.add(member3);
+        //
+        //
+        ListView arListView = arManageMembersDialog.findViewById(R.id.arListView);
+        AcceptRefuseMemberAdapter arMembersAdapter = new AcceptRefuseMemberAdapter(getApplicationContext(), arMembers);
+        arListView.setAdapter(arMembersAdapter);
+
+        // 수락, 거절 버튼 클릭 시 해야 할 일은 AcceptRefuseMemberAdapter.java의 getView()에 구현되어 있음.
+        // 여기서 구현하고 싶었지만 리스트뷰 내에 버튼이 있기 때문에 어댑터에서 구현해야 함.
     }
 
 
