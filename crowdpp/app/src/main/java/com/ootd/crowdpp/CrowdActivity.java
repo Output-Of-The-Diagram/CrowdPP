@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -119,45 +120,105 @@ public class CrowdActivity extends AppCompatActivity {
 
     // Crowd 탈퇴, 삭제와 관련된 기능
     public void EscapeAndRemoveCrowd(){
-        if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
-            AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
-            builder.setMessage("정말 탈퇴하시겠습니까?");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int whichButton){
-//                    TODO: 탈퇴 구현
-//
-                    dialog.cancel();
-                }
-            });
-            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        else{ // 리더가 버튼을 클릭하면 모임 삭제
-            AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
-            builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int whichButton){
-//
-//                        TODO: Crowd 삭제 구현
-//
-                    dialog.cancel();
-                }
-            });
-            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+        isLeader = false; // 리더인지 확인
+          SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+          String userId = sharedPreferences.getString("id", "");
+          Call<Result> call;
+          call = RetrofitClient.getApiService().isleader(userId, crowdId);
+          call.enqueue(new Callback<Result>(){
+              @Override
+              public void onResponse(Call<Result> call, Response<Result> response) {
+                  if (response.code() == 200) {
+                      Result result = response.body();
+                      String msg = result.getMsg();
+                      if (msg.equals("notLeader")) {
+                          isLeader = false;
+                      } else if (msg.equals("leader")) {
+                          isLeader = true;
+                      }
+                      System.out.println(msg);
+                  } else {
+                  }
+              }
+              @Override
+              public void onFailure(Call<Result> call, Throwable t) {
+                  Log.e("request fail", t.getMessage());
+              }
+          });
+
+  //                리더인지 확인하여 isLeader 설정
+          if (!isLeader){ // 멤버가 버튼을 클릭하면 모임 탈퇴
+              AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+              builder.setMessage("정말 탈퇴하시겠습니까?");
+              builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                  public void onClick(DialogInterface dialog, int whichButton){
+                      Call<Result> call;
+                      call = RetrofitClient.getApiService().kickmember(userId, crowdId);
+                      call.enqueue(new Callback<Result>(){
+                          @Override
+                          public void onResponse(Call<Result> call, Response<Result> response) {
+                              if (response.code() == 200) {
+                                  Result result = response.body();
+                                  String msg = result.getMsg();
+                                  if (msg.equals("registered!")) {
+                                  }
+                                  System.out.println(msg);
+                              } else {
+                              }
+                          }
+                          @Override
+                          public void onFailure(Call<Result> call, Throwable t) {
+                              Log.e("request fail", t.getMessage());
+                          }
+                      });
+                      dialog.cancel();
+                  }
+              });
+              builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                      dialog.cancel();
+                  }
+              });
+              AlertDialog dialog = builder.create();
+              dialog.show();
+          }
+          else{ // 리더가 버튼을 클릭하면 모임 삭제
+              AlertDialog.Builder builder = new AlertDialog.Builder(CrowdActivity.this);
+              builder.setMessage("정말 Crowd를 삭제하시겠습니까?");
+              builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                  public void onClick(DialogInterface dialog, int whichButton){
+                      Call<Result> call;
+                      call = RetrofitClient.getApiService().deletecrowd(crowdId);
+                      call.enqueue(new Callback<Result>(){
+                          @Override
+                          public void onResponse(Call<Result> call, Response<Result> response) {
+                              if (response.code() == 200) {
+                                  Result result = response.body();
+                                  String msg = result.getMsg();
+                                  if (msg.equals("deleted!")) {
+                                  }
+                                  System.out.println(msg);
+                              } else {
+                              }
+                          }
+                          @Override
+                          public void onFailure(Call<Result> call, Throwable t) {
+                              Log.e("request fail", t.getMessage());
+                          }
+                      });
+  //
+                      dialog.cancel();
+                  }
+              });
+              builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int whichButton) {
+                      dialog.cancel();
+                  }
+              });
+              AlertDialog dialog = builder.create();
+              dialog.show();
 
     }
 
