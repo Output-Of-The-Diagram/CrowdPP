@@ -28,21 +28,47 @@
             android:text="멤버이름1"
             android:textSize="20dp"/>
 
-        <Button
+        <TextView
             android:id="@+id/arAcceptButton"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/arRefuseButton"
             android:layout_marginRight="10dp"
-            android:text="수락" />
+            android:layout_centerInParent="true"
+            android:text="수락"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:background="#D8D8D8"/>
 
-        <Button
+        <TextView
             android:id="@+id/arRefuseButton"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:background="#D8D8D8"
             android:text="거절"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"/>
+
+<!--        <Button-->
+<!--            android:id="@+id/arAcceptButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toLeftOf="@id/arRefuseButton"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:text="수락" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/arRefuseButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="거절"-->
+<!--            android:layout_alignParentRight="true"/>-->
 
     </RelativeLayout>
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -12,13 +13,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/createCrowd"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="450dp"
-            android:layout_marginLeft="300dp"
-            android:src="@drawable/create_crowd" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="right">
+
+                <ImageView
+                    android:id="@+id/createCrowd"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/create_crowd" />
+
+        </RelativeLayout>
 
 
 </FrameLayout>
