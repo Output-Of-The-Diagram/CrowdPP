@@ -38,16 +38,16 @@
             android:text="수락"
             android:textSize="20dp"
             android:textColor="@color/black"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="1dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
             android:background="#D8D8D8"/>
 
         <TextView
             android:id="@+id/arRefuseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="1dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
             android:background="#D8D8D8"
             android:text="거절"
             android:textSize="20dp"

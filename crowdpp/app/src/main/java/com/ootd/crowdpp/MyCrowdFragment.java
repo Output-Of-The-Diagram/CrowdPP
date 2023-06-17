@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +35,6 @@ public class MyCrowdFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     private RecyclerAdapter adapter;
     ArrayList<CrowdData> CrowdDataArray;
-    ImageView createCrowd;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +81,9 @@ public class MyCrowdFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_crowd, container, false);
         // Inflate the layout for this fragment
+        ImageView createCrowd;
+        createCrowd = v.findViewById(R.id.createCrowd);
+        createCrowd.setVisibility(View.INVISIBLE);
 
         CrowdDataArray = new ArrayList<>();
 
