@@ -93,6 +93,7 @@ public class AllCrowdFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_all_crowd, container, false);
         // + 버튼을 누를 시 모임 생성
         createCrowd = v.findViewById(R.id.createCrowd);
+        createCrowd.setVisibility(View.VISIBLE);
         createCrowd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +106,6 @@ public class AllCrowdFragment extends Fragment {
                 EditText createCrowdExplain = createCrowdDialog.findViewById(R.id.createCrowdExplain);
                 EditText createCrowdRepresentImage = createCrowdDialog.findViewById(R.id.createRepresentImage);
                 Button createCrowdButton = createCrowdDialog.findViewById(R.id.createCrowdButton);
-
 
                 createCrowdButton.setOnClickListener(new View.OnClickListener() {
                     @Override
