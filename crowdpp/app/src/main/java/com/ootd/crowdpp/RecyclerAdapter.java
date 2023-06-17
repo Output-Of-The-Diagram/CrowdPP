@@ -135,7 +135,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View view){
                 Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
                 intent.putExtra("crowdId", CrowdDataArray.get(position).getCrowdID());
-                SharedPreferences sharedPreferences = context.getSharedPreferences("crowdId", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = context.getSharedPreferences("crowdInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("crowdId", CrowdDataArray.get(position).getCrowdID());
+                editor.apply();
 
                 context.startActivity(intent);
             }

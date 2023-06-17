@@ -54,7 +54,6 @@ public class CrowdActivity extends AppCompatActivity {
 
         getData(crowdId);
 
-        // 리더인지 확인
         SharedPreferences sharedPreferences = getSharedPreferences("loginUserInfo", MODE_PRIVATE);
         String userId = sharedPreferences.getString("id", "");
         System.out.println(userId);

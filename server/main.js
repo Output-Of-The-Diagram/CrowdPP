@@ -285,6 +285,8 @@ app.post("/isleader", (req, res) => {
         console.log(error);
         res.json({ msg: error.code });
       } else {
+        console.log(req.body);
+        console.log(result);
         if (result[0]["result"] == 0) {
           res.json({ msg: "notLeader" });
         } else {
