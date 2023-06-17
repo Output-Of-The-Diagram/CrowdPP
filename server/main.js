@@ -9,7 +9,7 @@ const port = 3000;
 var db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "jacob9897!",
+  password: "wlgns620",
   database: "CrowdPP",
   port: "3306",
 });
@@ -210,6 +210,20 @@ app.post("/applycrowd", (req, res) => {
   );
 });
 
+app.get("/getallrequest/:crowdId", (req, res) => {
+  db.query(
+    `SELECT userID FROM Request WHERE crowdID = ${req.params.crowdId}`,
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(result);
+        res.json(result);
+      }
+    }
+  );
+});
+
 // 모임 신청 요청 처리(승인, 거절)
 app.post("/processapply", (req, res) => {
   const now = new Date();
@@ -217,9 +231,9 @@ app.post("/processapply", (req, res) => {
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const koreaNow = new Date(utcNow + koreaTimeDiff);
   const formattedDate = koreaNow.toISOString().slice(0, 19).replace("T", " ");
-  if (req.body.isAccept === 0) {
+  if (req.body.isAccept == "1") {
     db.query(
-      `INSERT INTO Belong VALUES ('${req.userId}, ${req.crowdId}', False);`,
+      `INSERT INTO Belong VALUES ('${req.body.userId}', '${req.body.crowdId}', False);`,
       function (error, result) {
         if (error) {
           if (error.code === "ER_DUP_ENTRY") {
@@ -236,7 +250,7 @@ app.post("/processapply", (req, res) => {
     );
   }
   db.query(
-    `DELETE FROM Request WHERE userId = '${req.userId}' and crowdID = '${req.crowdId}'`,
+    `DELETE FROM Request WHERE userId = '${req.body.userId}' and crowdID = '${req.body.crowdId}'`,
     function (error, result) {
       if (error) {
         console.log(error);
