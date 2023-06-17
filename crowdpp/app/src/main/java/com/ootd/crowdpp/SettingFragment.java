@@ -59,7 +59,7 @@ public class SettingFragment extends Fragment {
 
         logoutButton = view.findViewById(R.id.logoutButton);
 
-        SharedPreferences shPreferences = requireContext().getSharedPreferences("userInfo", MODE_PRIVATE);
+        SharedPreferences shPreferences = requireContext().getSharedPreferences("loginUserInfo", MODE_PRIVATE);
         //로그ㅡ아웃
         
 
@@ -74,6 +74,7 @@ public class SettingFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+
             }
         });
     }
