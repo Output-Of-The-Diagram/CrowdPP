@@ -107,6 +107,25 @@ public class MembersAdapter extends BaseAdapter {
 
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int whichButton){
+                        Call<Result> call;
+                        call = RetrofitClient.getApiService().kickmember(userId, crowdId);
+                        call.enqueue(new Callback<Result>(){
+                            @Override
+                            public void onResponse(Call<Result> call, Response<Result> response) {
+                                if (response.code() == 200) {
+                                    Result result = response.body();
+                                    String msg = result.getMsg();
+                                    if (msg.equals("registered!")) {
+                                    }
+                                    System.out.println(msg);
+                                } else {
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Result> call, Throwable t) {
+                                Log.e("request fail", t.getMessage());
+                            }
+                        });
                         dialog.cancel();
                     }
                 });
