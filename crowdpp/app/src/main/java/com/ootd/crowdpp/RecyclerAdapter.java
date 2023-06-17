@@ -37,6 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //    Context context;
     Context context;
 
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -71,8 +72,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_crowd, viewGroup, false);
-        SharedPreferences sharedPreferences = viewGroup.getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = viewGroup.getContext().getSharedPreferences("loginUserInfo", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("id", "");
+
+
 
         Button applyButton = view.findViewById(R.id.applyButton);
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +135,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View view){
                 Intent intent = new Intent(context.getApplicationContext(), CrowdActivity.class);
                 intent.putExtra("crowdId", CrowdDataArray.get(position).getCrowdID());
+                SharedPreferences sharedPreferences = context.getSharedPreferences("crowdInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("crowdId", CrowdDataArray.get(position).getCrowdID());
+                editor.apply();
+
                 context.startActivity(intent);
             }
         });

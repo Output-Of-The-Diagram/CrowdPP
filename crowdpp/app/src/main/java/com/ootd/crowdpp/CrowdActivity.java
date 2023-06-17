@@ -54,7 +54,6 @@ public class CrowdActivity extends AppCompatActivity {
 
         getData(crowdId);
 
-        // 리더인지 확인
         SharedPreferences sharedPreferences = getSharedPreferences("loginUserInfo", MODE_PRIVATE);
         String userId = sharedPreferences.getString("id", "");
         System.out.println(userId);
@@ -94,7 +93,7 @@ public class CrowdActivity extends AppCompatActivity {
         escapeCrowdButton = findViewById(R.id.escapeCrowdButton); // Crowd 탈퇴 및 삭제 버튼 (X 모양)
         manageMembersButton = findViewById(R.id.manageMembersButton); // Crowd에 신청한 멤버 관리 버튼 (톱니 모양)
 
-        // Crowd 탈퇴, 추방 버튼 클릭
+        // Crowd 탈퇴, 삭제 버튼 클릭
         escapeCrowdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
