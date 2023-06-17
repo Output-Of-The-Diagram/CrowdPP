@@ -23,7 +23,7 @@
 
             <EditText
                 android:id="@+id/signupId"
-                android:layout_width="245dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
@@ -34,7 +34,8 @@
                 android:id="@+id/signupBtnFineId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="중복 확인"/>
+                android:text="중복 확인"
+                android:layout_gravity="right"/>
         </LinearLayout>
 
         <TextView
@@ -135,25 +136,31 @@
             android:text=" 수집항목: 아이디, 비밀번호, 이름, 이메일\n
 위 필수수집 동의를 하지 않는 경우 가입이 제한됩니다."/>
 
-        <RadioGroup
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioNotAccept"
-                android:layout_marginLeft="110dp"
+            android:layout_gravity="right">
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="동의하지 않습니다"/>
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/radioAccept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="동의합니다"/>
+                <RadioButton
+                    android:id="@+id/radioNotAccept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="동의하지 않습니다"/>
 
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/radioAccept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="동의합니다"/>
+
+            </RadioGroup>
+        </RelativeLayout>
+
+
 
 
         <Button

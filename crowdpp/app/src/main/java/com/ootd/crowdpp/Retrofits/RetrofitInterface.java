@@ -87,4 +87,17 @@ public interface RetrofitInterface {
     Call<ArrayList<UserModel>> getAllMember(
         @Path("crowdId") int crowdId
     );
+
+    @GET("/getallrequest/{crowdId}")
+    Call<ArrayList<UserModel>> getAllRequest(
+            @Path("crowdId") int crowdId
+    );
+
+    @FormUrlEncoded
+    @POST("/processapply/")
+    Call<Result> processApply(
+            @Field("isAccept") int isAccept,
+            @Field("userId") String userId,
+            @Field("crowdId") int crowdId
+    );
 }
