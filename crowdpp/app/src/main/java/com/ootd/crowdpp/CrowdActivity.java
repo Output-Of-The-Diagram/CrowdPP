@@ -114,7 +114,11 @@ public class CrowdActivity extends AppCompatActivity {
     }
     private void getData(int crowdId){
         members = new ArrayList<MembersData>();
+        ArrayList<MembersData> crowdMembers = new ArrayList<MembersData>(); // Crowd에 소속되어있는 멤버들의 리스트
 
+        // 신청을 넣은 멤버들 수락/거절 관리
+        //
+        ArrayList<MembersData> arMembers = new ArrayList<MembersData>(); // 신청을 넣은 멤버들의 리스트
         Call<ArrayList<UserModel>> call;
         call = RetrofitClient.getApiService().getAllMember(crowdId);
         call.enqueue(new Callback<ArrayList<UserModel>>(){
@@ -265,17 +269,44 @@ public class CrowdActivity extends AppCompatActivity {
         ArrayList<MembersData> arMembers = new ArrayList<MembersData>(); // 신청을 넣은 멤버들의 리스트
         // TODO: response 구현 필요(테스트용 데이터 추가해둠)
         //
-        MembersData member1 = new MembersData("Messi");
-        MembersData member2 = new MembersData("Ronaldo");
-        MembersData member3 = new MembersData("Holland");
-        arMembers.add(member1);
-        arMembers.add(member2);
-        arMembers.add(member3);
+
+        Call<ArrayList<UserModel>> call;
+        call = RetrofitClient.getApiService().getAllRequest(crowdId);
+        call.enqueue(new Callback<ArrayList<UserModel>>(){
+            @Override
+            public void onResponse(Call call, Response response) {
+                System.out.println(response.message());
+                System.out.println(response.message());
+                System.out.println(response.message());
+                if (response.code() == 200) {
+                    ArrayList<UserModel> result = (ArrayList<UserModel>) response.body();
+
+                    for (int i=0; i<result.size(); i++) {
+                        MembersData member = new MembersData(result.get(i).getName());
+                        System.out.println(result.get(i).getName());
+                        arMembers.add(member);
+                    }
+                    ListView arListView = arManageMembersDialog.findViewById(R.id.arListView);
+                    AcceptRefuseMemberAdapter arMembersAdapter = new AcceptRefuseMemberAdapter(getApplicationContext(), arMembers);
+                    arListView.setAdapter(arMembersAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("request fail", t.getMessage());
+            }
+        });
+//        MembersData member1 = new MembersData("Messi");
+//        MembersData member2 = new MembersData("Ronaldo");
+//        MembersData member3 = new MembersData("Holland");
+//        arMembers.add(member1);
+//        arMembers.add(member2);
+//        arMembers.add(member3);
         //
         //
-        ListView arListView = arManageMembersDialog.findViewById(R.id.arListView);
-        AcceptRefuseMemberAdapter arMembersAdapter = new AcceptRefuseMemberAdapter(getApplicationContext(), arMembers);
-        arListView.setAdapter(arMembersAdapter);
+//        ListView arListView = arManageMembersDialog.findViewById(R.id.arListView);
+//        arListView.setAdapter(arMembersAdapter);
 
         // 수락, 거절 버튼 클릭 시 해야 할 일은 AcceptRefuseMemberAdapter.java의 getView()에 구현되어 있음.
         // 여기서 구현하고 싶었지만 리스트뷰 내에 버튼이 있기 때문에 어댑터에서 구현해야 함.
