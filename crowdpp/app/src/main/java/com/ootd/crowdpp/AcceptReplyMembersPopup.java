@@ -2,7 +2,11 @@ package com.ootd.crowdpp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 
 public class AcceptReplyMembersPopup extends AppCompatActivity {
 
