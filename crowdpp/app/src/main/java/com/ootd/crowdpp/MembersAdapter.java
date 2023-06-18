@@ -60,8 +60,8 @@ public class MembersAdapter extends BaseAdapter {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("crowdInfo", Context.MODE_PRIVATE);
         SharedPreferences sharedPreferences1 = mContext.getSharedPreferences("loginUserInfo", Context.MODE_PRIVATE);
         int crowdId = sharedPreferences.getInt("crowdId", -1);
-        String userId = sharedPreferences1.getString("id", "");
-        String kickMemberId = Members.get(position).getMembers();
+        String userId = sharedPreferences1.getString("id", ""); // 로그인된 유저 아이디
+        String kickMemberId = Members.get(position).getMembers(); // 추방하는 멤버 아이디
         if (crowdId == -1){
             System.out.println("Error");
         }
