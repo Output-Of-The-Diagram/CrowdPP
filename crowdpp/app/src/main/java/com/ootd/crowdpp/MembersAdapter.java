@@ -61,6 +61,7 @@ public class MembersAdapter extends BaseAdapter {
         SharedPreferences sharedPreferences1 = mContext.getSharedPreferences("loginUserInfo", Context.MODE_PRIVATE);
         int crowdId = sharedPreferences.getInt("crowdId", -1);
         String userId = sharedPreferences1.getString("id", "");
+        String kickMemberId = Members.get(position).getMembers();
         if (crowdId == -1){
             System.out.println("Error");
         }
@@ -98,6 +99,7 @@ public class MembersAdapter extends BaseAdapter {
 
 
 
+
         kickMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +110,7 @@ public class MembersAdapter extends BaseAdapter {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int whichButton){
                         Call<Result> call;
-                        call = RetrofitClient.getApiService().kickmember(userId, crowdId);
+                        call = RetrofitClient.getApiService().kickmember(kickMemberId, crowdId);
                         call.enqueue(new Callback<Result>(){
                             @Override
                             public void onResponse(Call<Result> call, Response<Result> response) {
