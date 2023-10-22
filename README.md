@@ -13,5 +13,7 @@
 4. 이후 터미널에서 server 디렉토리로 이동 후 "npm i"를 실행한 뒤 "npm run server"를 실행합니다.
 5. 안드로이드 스튜디오에서 가상 Device를 실행한 뒤 어플을 실행하면 끝입니다.
 
+Usecase Diagram, Sequence Diagram, Class Diagram 등은 아래 링크의 문서를 참고해주세요.
+https://drive.google.com/file/d/18odR09PvPB1PjBEvAybT1mCGQZ24yLdY/view?usp=share_link
 
 ![image](https://github.com/Output-Of-The-Diagram/CrowdPP/assets/55120784/6425dcbc-4f6b-49d9-821d-8a26039baa36)
